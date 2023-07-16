@@ -176,7 +176,7 @@ class _EventScreenState extends State<EventScreen> {
             height: 25.0,
           ),
                     Container(
-                      height: Utils.displayHeight(context) * 0.4,
+                      height: Utils.displayHeight(context) * 0.6,
                       decoration: BoxDecoration(
                           color: Colors.lightBlueAccent,
                           borderRadius: BorderRadius.circular(10)),
@@ -360,8 +360,8 @@ SizedBox(height: 20,),
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 200.0
-        : 350.0;
+        ? 300.0
+        : 450.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
