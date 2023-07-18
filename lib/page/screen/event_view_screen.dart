@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/model/event_model.dart';
+import 'package:invitation/network/provider/event_provider.dart';
+import 'package:invitation/widget/loading.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
 
 class EventViewScreen extends StatefulWidget {
-  const EventViewScreen({Key? key}) : super(key: key);
+  final String id;
+  const EventViewScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   _EventViewScreenState createState() => _EventViewScreenState();
@@ -41,6 +45,10 @@ class _EventViewScreenState extends State<EventViewScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<EventProvider>(context, listen: false)
+          .fetchEventDetail(id: this.widget.id);
+    });
   }
 
   @override
@@ -111,9 +119,9 @@ class _EventViewScreenState extends State<EventViewScreen> {
   }
 
   Widget scanCard() {
+    final _eventProvider = Provider.of<EventProvider>(context);
     return Container(
         height: Utils.displayHeight(context),
-        // color: Colors.green,
         child: ListView.builder(
             //  controller: _ordersController,
             shrinkWrap: true,
@@ -121,13 +129,13 @@ class _EventViewScreenState extends State<EventViewScreen> {
             scrollDirection: Axis.vertical,
             itemCount: 1,
             itemBuilder: (context, index) {
-              return Padding(
+              return _eventProvider.isEventDetailLoading ? Loading():  Padding(
                 padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
                 child: Column(
                   children: [
-                    const Text(
-                      "Gerald & Paula Wedding",
-                      style: TextStyle(
+               Text(
+                      _eventProvider.availableEventDetail!.data.title,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
@@ -135,24 +143,24 @@ class _EventViewScreenState extends State<EventViewScreen> {
                     const SizedBox(
                       height: 5.0,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
                             Text(
-                              "100",
-                              style: TextStyle(
+                              "${_eventProvider.availableEventDetail!.data.capasity}",
+                              style: const TextStyle(
                                   color: Colors.white70, fontSize: 16),
                             ),
-                            Text(
+                            const Text(
                               "All",
                               style: TextStyle(
                                   color: Colors.white38, fontSize: 16),
                             ),
                           ],
                         ),
-                        Column(
+                        const Column(
                           children: [
                             Text(
                               "50",
@@ -166,7 +174,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
                             ),
                           ],
                         ),
-                        Column(
+                        const Column(
                           children: [
                             Text(
                               "50",
@@ -255,7 +263,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
                             )),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     if (result != null)

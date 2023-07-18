@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final _eventProvider = Provider.of<EventProvider>(context);
+    print(_eventProvider.availableEvents);
     return Scaffold(
         body: (Container(
       height: Utils.displayHeight(context),
@@ -152,11 +153,17 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.shopping_basket_outlined),
+                      Icon(
+                        Icons.card_giftcard_outlined,
+                        color: Colors.white,
+                      ),
                       SizedBox(
                         height: 10,
                       ),
-                      Text("No available event yet")
+                      Text(
+                        "No available event yet",
+                        style: TextStyle(color: Colors.white),
+                      )
                     ],
                   ))
                 : ListView.builder(
@@ -169,7 +176,11 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>  EventViewScreen()));
+                                    builder: (context) => EventViewScreen(
+                                          id: _eventProvider
+                                              .availableEvents[index].id
+                                              .toString(),
+                                        )));
                           },
                           child: EventCard(
                             eventModel: _eventProvider.availableEvents[index],
