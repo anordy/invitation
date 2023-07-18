@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:invitation/network/connectivity_helper.dart';
-import 'package:invitation/page/Auth/signup_screen.dart';
+import 'package:invitation/page/Auth/login_screen.dart';
 import 'package:invitation/page/home_page.dart';
 import 'package:invitation/widget/loading.dart';
 import 'package:invitation/widget/loading_dialog.dart.dart';
@@ -13,14 +13,14 @@ import '../../network/provider/auth_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
@@ -31,13 +31,16 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _phone;
   PhoneNumber number = PhoneNumber(isoCode: 'TZ');
 
+  TextEditingController _firstnameController = TextEditingController();
+  TextEditingController _lastnameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  // Initially password is obscure
+  bool _obscureText = true;
 
-  bool _obsecureText = true;
-
+  // Toggles the password show status
   void _toggle() {
     setState(() {
-      _obsecureText = !_obsecureText;
+      _obscureText = !_obscureText;
     });
   }
 
@@ -76,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 10.0,
                   ),
                   const Text(
-                    "Invitation",
+                    "Invitations",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -86,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               SizedBox(
-                height: Utils.displayHeight(context) * 0.12,
+                height: Utils.displayHeight(context) * 0.1,
               ),
               //  const Text(
               //     "Enter Your \n Mobile number",
@@ -96,11 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: Utils.displayHeight(context) * 0.02,
               ),
-              // Text(
-              //   "Enter your mobile number and password to continue.",
-              //   style: TextStyle(color: AppColor.text, fontSize: 12),
-              //   textAlign: TextAlign.center,
-              // ),
+
               SizedBox(
                 height: Utils.displayHeight(context) * 0.02,
               ),
@@ -145,9 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
-              SizedBox(
-                height: Utils.displayHeight(context) * 0.035,
-              ),
+              SizedBox(height: Utils.displayHeight(context) * 0.02),
+
               Container(
                 height: 50,
                 width: Utils.displayWidth(context),
@@ -155,7 +153,97 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0),
                     child: TextFormField(
-                      obscureText: _obsecureText,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      controller: _firstnameController,
+                      decoration: InputDecoration(
+                        labelText: "First Name",
+                        labelStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.border),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10.0))),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 3,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        print("First name: " + _firstnameController.text);
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "* Required";
+                        } else
+                          return null;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: Utils.displayHeight(context) * 0.02),
+              Container(
+                height: 50,
+                width: Utils.displayWidth(context),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0.0),
+                    child: TextFormField(
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      controller: _lastnameController,
+                      decoration: InputDecoration(
+                        labelText: "Last Name",
+                        labelStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.border),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10.0))),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 3,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        print("Last Name: " + _lastnameController.text);
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "* Required";
+                        } else
+                          return null;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: Utils.displayHeight(context) * 0.02),
+              Container(
+                height: 50,
+                width: Utils.displayWidth(context),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0.0),
+                    child: TextFormField(
+                      obscureText: _obscureText,
                       enableSuggestions: false,
                       autocorrect: false,
                       controller: _passwordController,
@@ -163,10 +251,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         suffixIcon: InkWell(
                             onTap: () {
                               _toggle();
-                              print(_obsecureText);
+                              print(_obscureText);
                             },
                             child: Icon(
-                              _obsecureText
+                              _obscureText
                                   ? CupertinoIcons.eye
                                   : CupertinoIcons.eye_slash,
                               color: Colors.white,
@@ -204,23 +292,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: Utils.displayHeight(context) * 0.02),
 
-              const SizedBox(
-                height: 15.0,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Colors.white54, fontSize: 12),
-                    textAlign: TextAlign.end,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
               ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: MaterialButton(
@@ -236,8 +309,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (_phoneController.text.length <= 9 &&
                                 _passwordController.text.length >= 8) {
                               _authProvider
-                                  .login(
+                                  .signup(
                                       phone: _phone.toString(),
+                                      fullname: _firstnameController.text +
+                                          '  ' +
+                                          _lastnameController.text,
                                       password: _passwordController.text)
                                   .then((value) {
                                 //     showDialog(
@@ -261,7 +337,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     duration: const Duration(seconds: 2),
                                     position: ToastPosition.top,
                                   );
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
@@ -307,11 +383,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                     child: const Text(
-                      "LOGIN",
+                      "SIGNUP",
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                   )),
-              const SizedBox(
+              SizedBox(
                 height: 10.0,
               ),
               Container(
@@ -322,7 +398,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Center(
                       child: Text(
-                        "Don't have Account?",
+                        "Already have Account?",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -345,11 +421,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SignupScreen()));
+                                    builder: (context) => const LoginScreen()));
                           },
                           child: Text(
-                            "Signup",
+                            "Signin",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,

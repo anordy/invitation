@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:invitation/model/event_model.dart';
 import 'package:invitation/utils/colors.dart';
 
 import '../utils/utils.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key});
+  final EventDatum eventModel;
+  const EventCard({super.key, required this.eventModel});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class EventCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Gerald & Paula Wedding",
+                          eventModel.title,
                           style: TextStyle(
                               fontSize: Utils.displayHeight(context) * 0.02,
                               fontWeight: FontWeight.w500,
@@ -59,6 +61,32 @@ class EventCard extends StatelessWidget {
                           height: 10,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.pin_drop_rounded,
+                              size: 20,
+                              color: Colors.white70,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              eventModel.venue,
+                              style: TextStyle(
+                                  fontSize:
+                                      Utils.displayHeight(context) * 0.014,
+                                  color: Colors.white70),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
                               Icons.calendar_month_rounded,
@@ -69,32 +97,13 @@ class EventCard extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              "15 May 2023",
+                              "${eventModel.startDate}",
                               style: TextStyle(
-                                  fontSize: Utils.displayHeight(context) * 0.014,
-                                  color: Colors.white70),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            const Icon(
-                              Icons.pin_drop_rounded,
-                              size: 20,
-                              color: Colors.white70,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "Mlimani city",
-                              style: TextStyle(
-                                  fontSize: Utils.displayHeight(context) * 0.014,
+                                  fontSize:
+                                      Utils.displayHeight(context) * 0.014,
                                   color: Colors.white70),
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          height: 10,
                         ),
                       ],
                     ),

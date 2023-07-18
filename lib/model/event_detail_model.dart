@@ -1,42 +1,39 @@
-// To parse this JSON data, do
-//
-//     final eventModel = eventModelFromJson(jsonString);
 
 import 'dart:convert';
 
-EventModel eventModelFromJson(String str) => EventModel.fromJson(json.decode(str));
+EventDetail eventDetailFromJson(String str) => EventDetail.fromJson(json.decode(str));
 
-String eventModelToJson(EventModel data) => json.encode(data.toJson());
+String eventDetailToJson(EventDetail data) => json.encode(data.toJson());
 
-class EventModel {
+class EventDetail {
     int code;
     String status;
     String message;
-    List<EventDatum> data;
+    Data data;
 
-    EventModel({
+    EventDetail({
         required this.code,
         required this.status,
         required this.message,
         required this.data,
     });
 
-    factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
+    factory EventDetail.fromJson(Map<String, dynamic> json) => EventDetail(
         code: json["code"],
         status: json["status"],
         message: json["message"],
-        data: List<EventDatum>.from(json["data"].map((x) => EventDatum.fromJson(x))),
+        data: Data.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
         "code": code,
         "status": status,
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data.toJson(),
     };
 }
 
-class EventDatum {
+class Data {
     int id;
     String title;
     String code;
@@ -50,8 +47,9 @@ class EventDatum {
     DateTime updatedAt;
     dynamic deletedAt;
     String userId;
+    List<dynamic> scanners;
 
-    EventDatum({
+    Data({
         required this.id,
         required this.title,
         required this.code,
@@ -65,9 +63,10 @@ class EventDatum {
         required this.updatedAt,
         this.deletedAt,
         required this.userId,
+        required this.scanners,
     });
 
-    factory EventDatum.fromJson(Map<String, dynamic> json) => EventDatum(
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         title: json["title"],
         code: json["code"],
@@ -81,6 +80,7 @@ class EventDatum {
         updatedAt: DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         userId: json["user_id"],
+        scanners: List<dynamic>.from(json["scanners"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
@@ -97,5 +97,6 @@ class EventDatum {
         "updated_at": updatedAt.toIso8601String(),
         "deleted_at": deletedAt,
         "user_id": userId,
+        "scanners": List<dynamic>.from(scanners.map((x) => x)),
     };
 }

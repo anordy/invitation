@@ -64,4 +64,54 @@ class AuthProvider extends ChangeNotifier {
     }
     return _hasError;
   }
+
+
+
+// ******* Signup connection  ***** //
+  Future<bool> signup({required String phone,required String fullname, required String password}) async {
+    print({"phone_number": phone,"full_name": fullname, "password": password});
+
+    _isLoading = false;
+    _hasError = true;
+
+    notifyListeners();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, String> data = {"phone_number": phone,"full_name": fullname, "password": password};
+    var url = Uri.parse(api + "register");
+    final response = await http.post(url,
+        headers: <String, String>{
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data));
+    try {
+      if (response.statusCode == 201) {
+        var result = authResponseFromJson(response.body);
+        print("******* Auth Response ******");
+        print(result.data.user.name);
+        sharedPreferences.setString("username", result.data.user.name);
+        sharedPreferences.setString("phone", result.data.user.phoneNumber);
+        sharedPreferences.setString("accessToken", result.data.token);
+        sharedPreferences.setBool("isLoggedIn", true);
+
+        _isLoading = false;
+        _hasError = false;
+        notifyListeners();
+      } else {
+        _isLoading = false;
+        _hasError = true;
+        print("**** Error from  signup  ****");
+        var result = authResponseFromJson(response.body);
+        _authResponse = result;
+        print(_authResponse.message);
+        notifyListeners();
+      }
+    } catch (e) {
+      print("catch");
+      _hasError = true;
+      _isLoading = false;
+      print(e);
+    }
+    return _hasError;
+  }
 }

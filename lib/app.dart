@@ -4,7 +4,7 @@ import 'package:invitation/page/Auth/onboarding/onboarding_screen.dart';
 import 'package:invitation/page/Auth/otp_screen.dart';
 import 'package:invitation/page/Auth/splash_screen.dart';
 import 'package:invitation/page/home_page.dart';
-import 'package:invitation/page/screen/event_screen.dart';
+import 'package:invitation/page/screen/event_view_screen.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'main.dart';
