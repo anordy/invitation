@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:invitation/network/connectivity_helper.dart';
 import 'package:invitation/page/Auth/signup_screen.dart';
+import 'package:invitation/page/Auth/splash_screen.dart';
 import 'package:invitation/page/home_page.dart';
 import 'package:invitation/widget/loading.dart';
 import 'package:invitation/widget/loading_dialog.dart.dart';
 import 'package:invitation/widget/toast_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../network/provider/auth_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
@@ -21,9 +23,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String? accessToken;
+  _loadToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool? isLoggedIn = sharedPreferences.getBool("isLoggedIn");
+    accessToken = sharedPreferences.getString("accessToken");
+    print("Loggin: ${isLoggedIn}");
+    print("********  Access Token ***********");
+    print(accessToken);
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadToken();
   }
 
   TextEditingController _phoneController = TextEditingController();
@@ -128,11 +141,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   selectorConfig: const SelectorConfig(
                     selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                   ),
+                  textStyle: const TextStyle(color: Colors.white),
+                  hintText: "",
                   ignoreBlank: false,
                   maxLength: 9,
                   autoValidateMode: AutovalidateMode.disabled,
-                  selectorTextStyle: const TextStyle(color: Colors.black),
-                  hintText: "*** *** ***",
+                  selectorTextStyle: const TextStyle(color: Colors.white),
+                  
                   initialValue: number,
                   textFieldController: _phoneController,
                   formatInput: false,
@@ -155,6 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0),
                     child: TextFormField(
+                      style: const TextStyle(color: Colors.white),
                       obscureText: _obsecureText,
                       enableSuggestions: false,
                       autocorrect: false,
@@ -247,20 +263,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //   return LoadingDialog();
                                 // });
                                 if (!value) {
-                                  showToastWidget(
-                                    LoggedInToast(
-                                        icon: const Icon(
-                                          Icons.done,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                        height: 50,
-                                        width: 200,
-                                        color: AppColor.success,
-                                        description: "Login Successfully"),
-                                    duration: const Duration(seconds: 2),
-                                    position: ToastPosition.top,
-                                  );
+                                  // showToastWidget(
+                                  //   LoggedInToast(
+                                  //       icon: const Icon(
+                                  //         Icons.done,
+                                  //         color: Colors.white,
+                                  //         size: 15,
+                                  //       ),
+                                  //       height: 50,
+                                  //       width: 200,
+                                  //       color: AppColor.success,
+                                  //       description: "Login Successfully"),
+                                  //   duration: const Duration(seconds: 2),
+                                  //   position: ToastPosition.top,
+                                  // );
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

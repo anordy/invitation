@@ -130,8 +130,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   ignoreBlank: false,
                   maxLength: 9,
                   autoValidateMode: AutovalidateMode.disabled,
-                  selectorTextStyle: const TextStyle(color: Colors.black),
-                  hintText: "*** *** ***",
+                  selectorTextStyle: const TextStyle(color: Colors.white),
+                  hintText: "",
                   initialValue: number,
                   textFieldController: _phoneController,
                   formatInput: false,
@@ -153,6 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0),
                     child: TextFormField(
+                      style: const TextStyle(color: Colors.white),
                       enableSuggestions: false,
                       autocorrect: false,
                       controller: _firstnameController,
@@ -198,6 +199,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0),
                     child: TextFormField(
+                      style: const TextStyle(color: Colors.white),
                       enableSuggestions: false,
                       autocorrect: false,
                       controller: _lastnameController,
@@ -243,6 +245,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0),
                     child: TextFormField(
+                      style: const TextStyle(color: Colors.white),
                       obscureText: _obscureText,
                       enableSuggestions: false,
                       autocorrect: false,
@@ -387,7 +390,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Container(

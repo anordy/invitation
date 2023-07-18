@@ -31,7 +31,7 @@ class EventProvider extends ChangeNotifier {
   // **** fetch Events *****
   Future<void> fetchEvents() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    this.accessToken = "33|o1EVf5ANHFi8hCJTkTOZsCsbYF6Kbbh2WvZzHZR2";
+    this.accessToken = sharedPreferences.getString("accessToken");
     print("*************  access token from Event ******");
     print(this.accessToken);
     bool hasError = true;
@@ -77,7 +77,7 @@ class EventProvider extends ChangeNotifier {
   // **** fetch Event by Id *****
   Future<void> fetchEventDetail({required String id}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    this.accessToken = "33|o1EVf5ANHFi8hCJTkTOZsCsbYF6Kbbh2WvZzHZR2";
+    this.accessToken = sharedPreferences.getString("accessToken");
     print("*************  access token from Event ******");
     print(this.accessToken);
     bool hasError = true;

@@ -89,10 +89,7 @@ class AuthProvider extends ChangeNotifier {
         var result = authResponseFromJson(response.body);
         print("******* Auth Response ******");
         print(result.data.user.name);
-        sharedPreferences.setString("username", result.data.user.name);
-        sharedPreferences.setString("phone", result.data.user.phoneNumber);
-        sharedPreferences.setString("accessToken", result.data.token);
-        sharedPreferences.setBool("isLoggedIn", true);
+       
 
         _isLoading = false;
         _hasError = false;
