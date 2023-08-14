@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool? isLoggedIn = sharedPreferences.getBool("isLoggedIn");
     accessToken = sharedPreferences.getString("accessToken");
-
+    String? username = sharedPreferences.getString("username");
     print("Loggin: ${isLoggedIn}");
     print("********  Access Token ***********");
     print(accessToken);

@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final authResponse = authResponseFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -39,28 +36,20 @@ class AuthResponse {
 class Data {
     String token;
     User user;
-    List<dynamic> events;
-    List<dynamic> linkedEvents;
 
     Data({
         required this.token,
         required this.user,
-        required this.events,
-        required this.linkedEvents,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"],
         user: User.fromJson(json["user"]),
-        events: List<dynamic>.from(json["events"].map((x) => x)),
-        linkedEvents: List<dynamic>.from(json["linked_events"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
         "token": token,
         "user": user.toJson(),
-        "events": List<dynamic>.from(events.map((x) => x)),
-        "linked_events": List<dynamic>.from(linkedEvents.map((x) => x)),
     };
 }
 
