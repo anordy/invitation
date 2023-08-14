@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       accessToken = sharedPreferences.getString('accessToken');
       isAuth = sharedPreferences.getBool('isLoggedIn');
+      username = sharedPreferences.getString('username');
     });
   }
 

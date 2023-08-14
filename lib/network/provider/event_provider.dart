@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:invitation/model/event_detail_model.dart';
@@ -16,7 +15,7 @@ class EventProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   bool? _isEventLoading;
-  late bool _isEventDetailLoading;
+   late bool _isEventDetailLoading;
   bool _hasError = false;
   String? accessToken;
   EventDetail? _availableEventDetail;
@@ -53,7 +52,7 @@ class EventProvider extends ChangeNotifier {
         print(result);
         _availableEvents = result.data;
         print("======  available Events ====");
-        print(availableEvents);
+        print(_availableEvents);
         _isEventLoading = false;
 
         notifyListeners();

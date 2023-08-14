@@ -107,9 +107,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 50,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
+                    // color: Colors.green,
                     border: Border.all(color: AppColor.border)),
                 width: Utils.displayWidth(context),
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: InternationalPhoneNumberInput(
                   onInputChanged: (PhoneNumber number) {
                     _phone = number.phoneNumber?.replaceAll("+", "");
