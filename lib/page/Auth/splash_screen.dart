@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:invitation/page/Auth/login_screen.dart';
+import 'package:invitation/page/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,20 +13,44 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  String? accessToken;
+  _checkIfUserIsLoggedIn() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool? isLoggedIn = sharedPreferences.getBool("isLoggedIn");
+    accessToken = sharedPreferences.getString("accessToken");
+
+    print("Loggin: ${isLoggedIn}");
+    print("********  Access Token ***********");
+    print(accessToken);
+    if (isLoggedIn != null && isLoggedIn) {
+      print("islogged in");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+    } else {
+      print("islogged out");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+  }
+
   @override
   void initState() {
-
     super.initState();
-   
+    print("Init splash");
+    // SharedPreferences.setMockInitialValues({});
+    Future.delayed(const Duration(seconds: 2), () {
+      _checkIfUserIsLoggedIn();
+      print("after splash");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (Container(
+        body: (Container(
       height: Utils.displayHeight(context),
       width: Utils.displayWidth(context),
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
           gradient: LinearGradient(
         colors: [AppColor.prebase, AppColor.base],
         begin: Alignment.topCenter,
@@ -61,8 +86,4 @@ class _SplashScreenState extends State<SplashScreen> {
       ]),
     )));
   }
-  
 }
-
-
-
