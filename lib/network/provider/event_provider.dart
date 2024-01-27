@@ -1,5 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:invitation/model/auth_response.dart';
 import 'package:invitation/model/event_detail_model.dart';
 import 'package:invitation/model/event_model.dart';
 import 'package:invitation/network/api.dart';
@@ -118,4 +121,56 @@ class EventProvider extends ChangeNotifier {
     // _availableEvents = false;
     notifyListeners();
   }
+
+  /**
+   * scan QR code 
+   */
+
+  Future<bool> checkUser({required String eventId, required String code}) async {
+    print({"event_id": eventId, "code": code});
+    _isLoading = false;
+    _hasError = true;
+
+    notifyListeners();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, String> data = {"event_id": eventId, "code": code};
+    var url = Uri.parse(api + "event/scan");
+    final response = await http.post(url,
+        headers: <String, String>{
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data));
+    try {
+      if (response.statusCode == 200) {
+        var result = authResponseFromJson(response.body);
+            print(url);
+        print("******* Auth Response ******");
+        print(result.data.user.name);
+        sharedPreferences.setString("username", result.data.user.name);
+        sharedPreferences.setString("phone", result.data.user.phoneNumber);
+        sharedPreferences.setString("accessToken", result.data.token);
+        sharedPreferences.setBool("isLoggedIn", true);
+
+        _isLoading = false;
+        _hasError = false;
+        notifyListeners();
+      } else {
+        _isLoading = false;
+        _hasError = true;
+        print("**** Error from  login  ****");
+        var result = authResponseFromJson(response.body);
+        // _authResponse = result;
+        // print(_authResponse.message);
+        notifyListeners();
+      }
+    } catch (e) {
+      print("catch");
+      _hasError = true;
+      _isLoading = false;
+      print(e);
+    }
+    return _hasError;
+  }
+
 }

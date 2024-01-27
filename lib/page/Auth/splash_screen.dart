@@ -60,11 +60,9 @@ class _SplashScreenState extends State<SplashScreen> {
         //tileMode: TileMode.repeated,
       )),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 60.0),
-        //   child: SvgPicture.asset('assets/icons/Laye.svg'),
-        // ),
-        SizedBox(height: Utils.displayHeight(context) * 0.4),
+                      Image.asset('assets/images/inv1.png',color: Colors.white,),
+
+        SizedBox(height: Utils.displayHeight(context) * 0.2),
         RichText(
           overflow: TextOverflow.ellipsis,
           text: TextSpan(
@@ -77,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       letterSpacing: 2.5,
                       color: Color(0xFFFFFFFF)))
             ],
-            text: "Wedding",
+            text: "Invitation",
             style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,

@@ -76,31 +76,12 @@ class _LoginScreenState extends State<LoginScreen> {
             //tileMode: TileMode.repeated,
           )),
           child: Padding(
-            padding: const EdgeInsets.only(top: 120.0, left: 20.0, right: 20.0),
+            padding: const EdgeInsets.only(top: 100.0, left: 20.0, right: 20.0),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.card_giftcard,
-                    color: AppColor.base,
-                  ),
-                  const SizedBox(
-                    width: 10.0,
-                  ),
-                  const Text(
-                    "Invitation",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
-              ),
+              Image.asset('assets/images/inv1.png',color: Colors.white,),
               SizedBox(
-                height: Utils.displayHeight(context) * 0.12,
+                height: Utils.displayHeight(context) * 0.06,
               ),
               //  const Text(
               //     "Enter Your \n Mobile number",
