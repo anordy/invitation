@@ -20,7 +20,7 @@ class AuthProvider extends ChangeNotifier {
 // Login connection
   Future<bool> login({required String phone, required String password}) async {
     print({"phone_number": phone, "password": password});
-
+    print("object");
     _isLoading = false;
     _hasError = true;
 
@@ -35,8 +35,10 @@ class AuthProvider extends ChangeNotifier {
         },
         body: jsonEncode(data));
     try {
+          print('eee');
       if (response.statusCode == 200) {
         var result = authResponseFromJson(response.body);
+            print(url);
         print("******* Auth Response ******");
         print(result.data.user.name);
         sharedPreferences.setString("username", result.data.user.name);
@@ -65,18 +67,23 @@ class AuthProvider extends ChangeNotifier {
     return _hasError;
   }
 
-
-
 // ******* Signup connection  ***** //
-  Future<bool> signup({required String phone,required String fullname, required String password}) async {
-    print({"phone_number": phone,"full_name": fullname, "password": password});
+  Future<bool> signup(
+      {required String phone,
+      required String fullname,
+      required String password}) async {
+    print({"phone_number": phone, "full_name": fullname, "password": password});
 
     _isLoading = false;
     _hasError = true;
 
     notifyListeners();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, String> data = {"phone_number": phone,"full_name": fullname, "password": password};
+    Map<String, String> data = {
+      "phone_number": phone,
+      "full_name": fullname,
+      "password": password
+    };
     var url = Uri.parse(api + "register");
     final response = await http.post(url,
         headers: <String, String>{
@@ -89,7 +96,6 @@ class AuthProvider extends ChangeNotifier {
         var result = authResponseFromJson(response.body);
         print("******* Auth Response ******");
         print(result.data.user.name);
-       
 
         _isLoading = false;
         _hasError = false;

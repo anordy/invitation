@@ -47,6 +47,17 @@ dependencies:
   intl_phone_number_input: ^0.7.3+1
   oktoast: ^3.3.1
   connectivity_plus: ^4.0.1
+  bloc: ^8.1.2
+  flutter_bloc: ^8.1.3
+  dio_logger: ^4.0.8+8
+  adaptive_theme: ^3.5.0
+  flutter_native_splash: ^2.3.7
+  is_first_run: ^1.0.0
+  dio: ^4.0.6
+  freezed: ^2.4.6
+  freezed_annotation: ^2.4.1
+  flutter_localization: ^0.2.0
+  nb_utils: ^6.0.4
   
 
 dev_dependencies:
@@ -78,6 +89,8 @@ flutter:
   
       - assets/images/
       - assets/icons/
+      - assets/lang/sw.json
+      - assets/lang/en.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
