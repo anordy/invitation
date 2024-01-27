@@ -58,7 +58,7 @@ class AuthRepository {
 
       final userData = response['data'];
       print("****************************");
-      print(userData.user.name);
+      // print(userData.user.name);
       // save the user data to shared preferences
       final prefs = await SharedPreferences.getInstance();
       final user = json.encode({

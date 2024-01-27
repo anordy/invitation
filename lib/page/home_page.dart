@@ -3,6 +3,7 @@ import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/model/event_model.dart';
 import 'package:invitation/network/provider/event_provider.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
+import 'package:invitation/page/Auth/login_screen_bloc.dart';
 import 'package:invitation/page/screen/event_view_screen.dart';
 import 'package:invitation/widget/toast_widget.dart';
 import 'package:oktoast/oktoast.dart';
@@ -65,7 +66,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final _eventProvider = Provider.of<EventProvider>(context);
+    print(_eventProvider.availableEvents);
     return Scaffold(
         body: (Container(
       height: Utils.displayHeight(context),
@@ -140,51 +142,49 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 15.0,
           ),
-          // Container(
-          //   // color: Colors.red,
-          //   height: Utils.displayHeight(context) * 0.6,
-          //   child: _eventProvider.availableEvents == null ||
-          //           _eventProvider.availableEvents.length <= 0
-          //       ? const Center(
-          //           child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             Icon(
-          //               Icons.card_giftcard_outlined,
-          //               color: Colors.white,
-          //             ),
-          //             SizedBox(
-          //               height: 10,
-          //             ),
-          //             Text(
-          //               "No available event yet",
-          //               style: TextStyle(color: Colors.white),
-          //             )
-          //           ],
-          //         ))
-          //       : ListView.builder(
-          //           scrollDirection: Axis.vertical,
-          //           padding: const EdgeInsets.only(top: 10),
-          //           itemCount: _eventProvider.availableEvents.length,
-          //           itemBuilder: (context, index) {
-          //             return InkWell(
-          //                 onTap: () {
-          //                   Navigator.push(
-          //                       context,
-          //                       MaterialPageRoute(
-          //                           builder: (context) => EventViewScreen(
-          //                                 id: _eventProvider
-          //                                     .availableEvents[index].id
-          //                                     .toString(),
-          //                               )));
-          //                 },
-          //                 child: EventCard(
-          //                   eventModel: _eventProvider.availableEvents[index],
-          //                 ));
-          //           }),
-          // )
-        
-        
+          Container(
+            // color: Colors.red,
+            height: Utils.displayHeight(context) * 0.6,
+            child: _eventProvider.availableEvents == null ||
+                    _eventProvider.availableEvents.length <= 0
+                ? const Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.card_giftcard_outlined,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "No available event yet",
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ))
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    padding: const EdgeInsets.only(top: 10),
+                    itemCount: _eventProvider.availableEvents.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EventViewScreen(
+                                          id: _eventProvider
+                                              .availableEvents[index].id
+                                              .toString(),
+                                        )));
+                          },
+                          child: EventCard(
+                            eventModel: _eventProvider.availableEvents[index],
+                          ));
+                    }),
+          )
         ]),
       ),
     )));
