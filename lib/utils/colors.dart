@@ -20,3 +20,7 @@ class AppColor{
   static Color bgScreen2 = const Color(0xFFF3F3F3);
   static Color success = const Color(0xFF06BE77);
 }
+
+const primaryColor = const Color(0xff002244);
+const primaryColorLight = const Color(0xff009FDA);
+const primaryColorDark = Color(0xFF121212);
