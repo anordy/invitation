@@ -8,47 +8,7 @@ import 'package:invitation/network/endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
-  // Future<dynamic> resetPasswordByPhone(dynamic data) async {
-  //   try {
-  //     final response = await DioClient.instance.post(
-  //       resetPasswordByPhoneED,
-  //       data: data,
-  //       options: Options(
-  //         headers: {'Accept': 'application/json'},
-  //       ),
-  //     );
-  //     return response;
-  //   } on DioError catch (e) {
-  //     if (e.response != null) {
-  //       throw e.response!.data['message'];
-  //     } else {
-  //       var error = DioException.fromDioError(e);
-  //       throw error.errorMessage;
-  //     }
-  //   }
-  // }
-
-  // Future<dynamic> forgotPasswordByPhone(dynamic data) async {
-  //   try {
-  //     final response = await DioClient.instance.post(
-  //       forgotPasswordByPhoneED,
-  //       data: data,
-  //       options: Options(
-  //         headers: {'Accept': 'application/json'},
-  //       ),
-  //     );
-  //     return response;
-  //   } on DioError catch (e) {
-  //     if (e.response != null) {
-  //       throw e.response!.data['message'];
-  //     } else {
-  //       var error = DioException.fromDioError(e);
-  //       throw error.errorMessage;
-  //     }
-  //   }
-  // }
-
-  Future<dynamic> login(dynamic data) async {
+ Future<dynamic> login(dynamic data) async {
     try {
       final response = await DioClient.instance.post(
         loginED,
@@ -56,17 +16,20 @@ class AuthRepository {
         options: Options(headers: {'Accept': 'application/json'}),
       );
 
-      final userData = response['data'];
-      print("****************************");
-      print(userData.user.name);
+      final userData = response['data']['user'];
+      final responceData = response['data'];
+
       // save the user data to shared preferences
       final prefs = await SharedPreferences.getInstance();
       final user = json.encode({
         'id': userData['id'],
-        'username': userData['username'],
+        'name': userData['name'],
+        'email': userData['email'],
         'phone_number': userData['phone_number'],
-        'token': userData['token'],
+        'token': responceData['token'],
       });
+       print(user);
+
 
       prefs.setString('user', user);
 
@@ -81,26 +44,5 @@ class AuthRepository {
     }
   }
 
-  // Future<User> signup(dynamic data) async {
-  //   try {
-  //     final response = await DioClient.instance.post(
-  //       signupED,
-  //       data: data,
-  //       options: Options(headers: {'Accept': 'application/json'}),
-  //     );
-
-  //     final userData = response['data'];
-
-  //     final User user = User.fromJson(userData);
-
-  //     return user;
-  //   } on DioError catch (e) {
-  //     if (e.response != null) {
-  //       throw e.response!.data['message'];
-  //     } else {
-  //       var error = DioException.fromDioError(e);
-  //       throw error.errorMessage;
-  //     }
-  //   }
-  // }
+ 
 }

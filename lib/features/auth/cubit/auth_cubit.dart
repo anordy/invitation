@@ -23,14 +23,14 @@ class AuthCubit extends Cubit<AuthState> {
     if (prefs.containsKey('user')) {
       final extractedUserData =
           json.decode(prefs.getString('user')!) as Map<String, dynamic>;
-      final expiryIn = extractedUserData['expires_in'];
+      // final expiryIn = extractedUserData['expires_in'];
 
-      final now = DateTime.now().toUtc().millisecondsSinceEpoch;
+      // final now = DateTime.now().toUtc().millisecondsSinceEpoch;
 
       // if (expiryIn < now / 1000) {
-      //   emit(const AuthState.success(isAuth: false));
+        // emit(const AuthState.success(isAuth: false));
       // } else {
-      //   emit(const AuthState.success(isAuth: true));
+        emit(const AuthState.success(isAuth: true));
       // }
     } else {
       emit(const AuthState.success(isAuth: false));

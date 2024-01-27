@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invitation/card/EventCard.dart';
+import 'package:invitation/features/auth/cubit/auth_cubit.dart';
 import 'package:invitation/model/event_model.dart';
 import 'package:invitation/network/provider/event_provider.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
 import 'package:invitation/page/screen/event_view_screen.dart';
 import 'package:invitation/widget/toast_widget.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,49 +28,32 @@ class _HomePageState extends State<HomePage> {
   String? accessToken;
   String? username;
   bool? isAuth;
+  Map<dynamic, dynamic> user = {};
 
-  _loadUsers() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      accessToken = sharedPreferences.getString('accessToken');
-      isAuth = sharedPreferences.getBool('isLoggedIn');
-      username = sharedPreferences.getString('username');
-    });
-  }
+  // _loadUsers() async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     accessToken = sharedPreferences.getString('accessToken');
+  //     isAuth = sharedPreferences.getBool('isLoggedIn');
+  //     username = sharedPreferences.getString('username');
+  //   });
+  // }
 
-  _logout() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+   void fetchUserDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = json.decode(prefs.getString('user')!);
     setState(() {
-      sharedPreferences.setBool('isLoggedIn', false);
-      sharedPreferences.remove("accessToken");
-      sharedPreferences.remove("username");
+      user = userData;
     });
-    showToastWidget(
-      SignOutToast(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-            size: 15,
-          ),
-          height: 50,
-          width: 300,
-          color: AppColor.base,
-          description: "Signout"),
-      duration: const Duration(seconds: 2),
-      position: ToastPosition.bottom,
-    );
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   void initState() {
     super.initState();
-    _loadUsers();
+    fetchUserDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: (Container(
       height: Utils.displayHeight(context),
@@ -86,7 +74,8 @@ class _HomePageState extends State<HomePage> {
             children: [
               IconButton(
                   onPressed: () {
-                    _logout();
+                    BlocProvider.of<AuthCubit>(context).logout();
+                    const LoginScreen().launch(context);
                   },
                   icon: const Icon(
                     Icons.card_giftcard_outlined,
@@ -116,7 +105,7 @@ class _HomePageState extends State<HomePage> {
             height: 40,
           ),
           Text(
-            "Hello ${username}",
+            "Hello ${user['name']}",
             style: const TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
@@ -183,8 +172,6 @@ class _HomePageState extends State<HomePage> {
           //                 ));
           //           }),
           // )
-        
-        
         ]),
       ),
     )));
