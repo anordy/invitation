@@ -28,6 +28,7 @@ class EventRepository {
 //       throw error.errorMessage;
 //     }
 //   }
-
- 
+   Future fetch(int page) async{
+    
+  }
 }
