@@ -339,7 +339,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         height: 50,
                                         width: 200,
                                         color: AppColor.success,
-                                        description: "Login Successfully"),
+                                        description: "Login Successfully", bgColor: Colors.green,),
                                     duration: const Duration(seconds: 2),
                                     position: ToastPosition.top,
                                   );
@@ -358,6 +358,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         ),
                                         height: 50,
                                         width: 300,
+                                        
                                         color: AppColor.base,
                                         description:
                                             "${_authProvider.authResponce.message}"),

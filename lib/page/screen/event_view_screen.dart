@@ -228,48 +228,54 @@ class _EventViewScreenState extends State<EventViewScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                            _isVerify ?  ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: MaterialButton(
-                                    height: 50,
-                                    minWidth: Utils.displayWidth(context) * 0.3,
-                                    color:
-                                        const Color.fromARGB(179, 1, 59, 101),
-                                    onPressed: _toggleScan,
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          _isScanning
-                                              ? Icons.pause
-                                              : Icons.play_arrow,
-                                          color: Colors.white70,
+                              _isVerify
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: MaterialButton(
+                                        height: 50,
+                                        minWidth:
+                                            Utils.displayWidth(context) * 0.3,
+                                        color: const Color.fromARGB(
+                                            179, 1, 59, 101),
+                                        onPressed: _toggleScan,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              _isScanning
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
+                                              color: Colors.white70,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              _isScanning ? "PAUSE" : "RESUME",
+                                              style: const TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 16),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          _isScanning ? "PAUSE" : "RESUME",
-                                          style: const TextStyle(
+                                      ))
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: MaterialButton(
+                                        height: 50,
+                                        minWidth:
+                                            Utils.displayWidth(context) * 0.3,
+                                        color: const Color.fromARGB(
+                                            179, 1, 59, 101),
+                                        onPressed: () async {
+                                          await controller?.resumeCamera();
+                                        },
+                                        child: const Text(
+                                          "VERIFY CARD",
+                                          style: TextStyle(
                                               color: Colors.white70,
                                               fontSize: 16),
                                         ),
-                                      ],
-                                    ),
-                                  )) : ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: MaterialButton(
-                          height: 50,
-                          minWidth: Utils.displayWidth(context) * 0.3,
-                          color: const Color.fromARGB(179, 1, 59, 101),
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: const Text(
-                            "VERIFY CARD",
-                            style:
-                                TextStyle(color: Colors.white70, fontSize: 16),
-                          ),
-                        )),
+                                      )),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -289,17 +295,21 @@ class _EventViewScreenState extends State<EventViewScreen> {
                                       print(_isVerify);
                                       print("********************");
                                     },
-                                    child:  Row(
+                                    child: Row(
                                       children: [
                                         Icon(
-                                         _isVerify ? Icons.numbers_outlined : Icons.scanner_outlined,
+                                          _isVerify
+                                              ? Icons.numbers_outlined
+                                              : Icons.scanner_outlined,
                                           color: Colors.white70,
                                         ),
                                         SizedBox(
                                           width: 10,
                                         ),
                                         Text(
-                                         _isVerify ? "verify".toUpperCase() : "scan".toUpperCase(),
+                                          _isVerify
+                                              ? "verify".toUpperCase()
+                                              : "scan".toUpperCase(),
                                           style: TextStyle(
                                               color: Colors.white70,
                                               fontSize: 16),
@@ -322,8 +332,9 @@ class _EventViewScreenState extends State<EventViewScreen> {
                     );
             }));
   }
+
 // active participants
-Widget activeParticipants() {
+  Widget activeParticipants() {
     return Container(
         height: Utils.displayHeight(context),
         // color: Colors.green,
@@ -337,10 +348,16 @@ Widget activeParticipants() {
               return Padding(
                   padding: const EdgeInsets.only(
                       left: 15.0, right: 15.0, bottom: 5.0, top: 5),
-                  child: InkWell(onTap: () {}, child:  ParticipantCard(participant: participantModels[index],)));
+                  child: InkWell(
+                      onTap: () {},
+                      child: ParticipantCard(
+                        participant: participantModels[index],
+                      )));
             }));
   }
+
   Widget _verifyTextField(BuildContext context) {
+    final _eventProvider = Provider.of<EventProvider>(context);
     return Container(
       width: Utils.displayHeight(context) * 0.6,
       padding: const EdgeInsets.only(
@@ -361,12 +378,15 @@ Widget activeParticipants() {
                   disabledBorderColor: AppColor.base),
               style: const TextStyle(fontSize: 17, color: Colors.white),
               onChanged: (pin) {
+                print("*****************************");
                 print("Changed: " + pin);
               },
               onCompleted: (pin) {
+                print("*****************************");
                 print("Completed: " + pin);
+                _eventProvider.checkCard(pin: pin, eventId: 1);
+                otpController.clear();
               }),
-             
         ],
       ),
     );

@@ -1,12 +1,16 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:invitation/model/auth_response.dart';
+import 'package:invitation/model/check_card_model.dart';
 import 'package:invitation/model/event_detail_model.dart';
 import 'package:invitation/model/event_model.dart';
 import 'package:invitation/network/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:invitation/utils/colors.dart';
+import 'package:invitation/widget/toast_widget.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EventProvider extends ChangeNotifier {
@@ -18,7 +22,7 @@ class EventProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   bool? _isEventLoading;
-   late bool _isEventDetailLoading;
+  late bool _isEventDetailLoading;
   bool _hasError = false;
   String? accessToken;
   EventDetail? _availableEventDetail;
@@ -123,45 +127,78 @@ class EventProvider extends ChangeNotifier {
   }
 
   /**
-   * scan QR code 
+   * Card check
    */
 
-  Future<bool> checkUser({required String eventId, required String code}) async {
-    print({"event_id": eventId, "code": code});
+  Future<bool> checkCard({required String pin, required int eventId}) async {
+    print({"pin": pin, "event_id": eventId});
     _isLoading = false;
     _hasError = true;
 
     notifyListeners();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, String> data = {"event_id": eventId, "code": code};
-    var url = Uri.parse(api + "event/scan");
+    Map<String, dynamic> data = {"pin": pin, "event_id": eventId};
+    var url = Uri.parse(api + "scan/invitation/card");
     final response = await http.post(url,
         headers: <String, String>{
           "Accept": "application/json",
           "Content-Type": "application/json",
+          "Authorization": "Bearer $accessToken",
         },
         body: jsonEncode(data));
     try {
-      if (response.statusCode == 200) {
-        var result = authResponseFromJson(response.body);
-            print(url);
-        print("******* Auth Response ******");
-        print(result.data.user.name);
-        sharedPreferences.setString("username", result.data.user.name);
-        sharedPreferences.setString("phone", result.data.user.phoneNumber);
-        sharedPreferences.setString("accessToken", result.data.token);
-        sharedPreferences.setBool("isLoggedIn", true);
-
+      var result = checkCardModelFromJson(response.body);
+      if (result.code == 200) {
+        print("******* scan card results ******");
+        print(result.message);
+        print("**********************");
         _isLoading = false;
         _hasError = false;
+        
+            showToastWidget(
+              LoggedInToast(
+                  icon: const Icon(
+                    Icons.done,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+                  height: 50,
+                  width: 200,
+                  color: Colors.white,
+                  bgColor: Colors.green,
+                  description: "User check-in successful!"),
+              duration: const Duration(seconds: 2),
+              position: ToastPosition.top,
+            );
         notifyListeners();
-      } else {
+      } else if(result.code == 422) {
+        print("******* Verify card scanned ******");
+        print(result.message);
+        print("**********************");
+        _isLoading = false;
+        _hasError = false;
+       
+          showToastWidget(
+              LoggedInToast(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.red,
+                    size: 15,
+                  ),
+                  height: 50,
+                  width: 200,
+                  color: Colors.white,
+                  bgColor: Colors.red,
+                  description: "User is already marked as checked in"),
+              duration: const Duration(seconds: 2),
+              position: ToastPosition.top,
+            );
+        notifyListeners();
+      }
+       else {
         _isLoading = false;
         _hasError = true;
-        print("**** Error from  login  ****");
-        var result = authResponseFromJson(response.body);
-        // _authResponse = result;
-        // print(_authResponse.message);
+
         notifyListeners();
       }
     } catch (e) {
@@ -172,5 +209,4 @@ class EventProvider extends ChangeNotifier {
     }
     return _hasError;
   }
-
 }
