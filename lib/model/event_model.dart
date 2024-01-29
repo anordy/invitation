@@ -44,12 +44,14 @@ class EventDatum {
     String venue;
     DateTime startDate;
     DateTime endDate;
-    int capasity;
+    String capasity;
     String status;
     DateTime createdAt;
     DateTime updatedAt;
     dynamic deletedAt;
     String userId;
+    String startAt;
+    String address;
 
     EventDatum({
         required this.id,
@@ -63,8 +65,10 @@ class EventDatum {
         required this.status,
         required this.createdAt,
         required this.updatedAt,
-        this.deletedAt,
+        required this.deletedAt,
         required this.userId,
+        required this.startAt,
+        required this.address,
     });
 
     factory EventDatum.fromJson(Map<String, dynamic> json) => EventDatum(
@@ -81,6 +85,8 @@ class EventDatum {
         updatedAt: DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         userId: json["user_id"],
+        startAt: json["start_at"],
+        address: json["address"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -97,5 +103,7 @@ class EventDatum {
         "updated_at": updatedAt.toIso8601String(),
         "deleted_at": deletedAt,
         "user_id": userId,
+        "start_at": startAt,
+        "address": address,
     };
 }

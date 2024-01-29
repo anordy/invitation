@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/model/event_model.dart';
-import 'package:invitation/network/provider/event_provider.dart';
+import 'package:invitation/network/provider/event_provider%20copy.dart';
+import 'package:invitation/network/provider/events_provider.dart';
+import 'package:invitation/network/provider/participant_provider.dart';
 import 'package:invitation/widget/loading.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -121,7 +123,8 @@ class _EventViewScreenState extends State<EventViewScreen> {
                       color: Colors.transparent,
                       child: TabBarView(controller: _tabController, children: [
                         scanCard(),
-                        activeParticipants(),
+                        scanCard(),
+                        // activeParticipants(),
                       ]),
                     ),
                   ])),
@@ -150,211 +153,214 @@ class _EventViewScreenState extends State<EventViewScreen> {
                   : Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, left: 8.0, right: 8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            _eventProvider.availableEventDetail!.data.title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 5.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "${_eventProvider.availableEventDetail!.data.capasity}",
-                                    style: const TextStyle(
-                                        color: Colors.white70, fontSize: 16),
-                                  ),
-                                  const Text(
-                                    "All",
-                                    style: TextStyle(
-                                        color: Colors.white38, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                              const Column(
-                                children: [
-                                  Text(
-                                    "50",
-                                    style: TextStyle(
-                                        color: Colors.white70, fontSize: 16),
-                                  ),
-                                  Text(
-                                    "Active",
-                                    style: TextStyle(
-                                        color: Colors.white38, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                              const Column(
-                                children: [
-                                  Text(
-                                    "50",
-                                    style: TextStyle(
-                                        color: Colors.white70, fontSize: 16),
-                                  ),
-                                  Text(
-                                    "InActive",
-                                    style: TextStyle(
-                                        color: Colors.white38, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 25.0,
-                          ),
-                          Container(
-                            height: Utils.displayHeight(context) * 0.6,
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Expanded(
-                                child: _isVerify
-                                    ? _buildQrView(context)
-                                    : _verifyTextField(context)),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _isVerify
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: MaterialButton(
-                                        height: 50,
-                                        minWidth:
-                                            Utils.displayWidth(context) * 0.3,
-                                        color: const Color.fromARGB(
-                                            179, 1, 59, 101),
-                                        onPressed: _toggleScan,
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              _isScanning
-                                                  ? Icons.pause
-                                                  : Icons.play_arrow,
-                                              color: Colors.white70,
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              _isScanning ? "PAUSE" : "RESUME",
-                                              style: const TextStyle(
-                                                  color: Colors.white70,
-                                                  fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                      ))
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: MaterialButton(
-                                        height: 50,
-                                        minWidth:
-                                            Utils.displayWidth(context) * 0.3,
-                                        color: const Color.fromARGB(
-                                            179, 1, 59, 101),
-                                        onPressed: () async {
-                                          await controller?.resumeCamera();
-                                        },
-                                        child: const Text(
-                                          "VERIFY CARD",
-                                          style: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 16),
-                                        ),
-                                      )),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: MaterialButton(
-                                    height: 50,
-                                    minWidth: Utils.displayWidth(context) * 0.3,
-                                    color:
-                                        const Color.fromARGB(179, 1, 59, 101),
-                                    onPressed: () async {
-                                      setState(() {
-                                        _isVerify = !_isVerify;
-                                      });
-                                      print(
-                                          "************  verify OTP *********");
-                                      print(_isVerify);
-                                      print("********************");
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          _isVerify
-                                              ? Icons.numbers_outlined
-                                              : Icons.scanner_outlined,
-                                          color: Colors.white70,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          _isVerify
-                                              ? "verify".toUpperCase()
-                                              : "scan".toUpperCase(),
-                                          style: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          if (result != null)
-                            Text(
-                                'QRCODE Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                          else
-                            const Text(''),
-                        ],
+                      child: Expanded(
+                        child: Column(
+                          children: [
+                            // Text(
+                            //   _eventProvider.availableEventDetail!.data.title,
+                            //   style: const TextStyle(
+                            //       color: Colors.white,
+                            //       fontSize: 20,
+                            //       fontWeight: FontWeight.bold),
+                            // ),
+                            // const SizedBox(
+                            //   height: 5.0,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //   children: [
+                            //     Column(
+                            //       children: [
+                            //         Text(
+                            //           "${_eventProvider.availableEventDetail!.data.capasity}",
+                            //           style: const TextStyle(
+                            //               color: Colors.white70, fontSize: 16),
+                            //         ),
+                            //         const Text(
+                            //           "All",
+                            //           style: TextStyle(
+                            //               color: Colors.white38, fontSize: 16),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     const Column(
+                            //       children: [
+                            //         Text(
+                            //           "50",
+                            //           style: TextStyle(
+                            //               color: Colors.white70, fontSize: 16),
+                            //         ),
+                            //         Text(
+                            //           "Active",
+                            //           style: TextStyle(
+                            //               color: Colors.white38, fontSize: 16),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     const Column(
+                            //       children: [
+                            //         Text(
+                            //           "50",
+                            //           style: TextStyle(
+                            //               color: Colors.white70, fontSize: 16),
+                            //         ),
+                            //         Text(
+                            //           "InActive",
+                            //           style: TextStyle(
+                            //               color: Colors.white38, fontSize: 16),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ],
+                            // ),
+                            const SizedBox(
+                              height: 25.0,
+                            ),
+                            Container(
+                              height: Utils.displayHeight(context) * 0.5,
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Expanded(
+                                  child: _isVerify
+                                      ? _buildQrView(context)
+                                      : _verifyTextField(context)),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _isVerify
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: MaterialButton(
+                                          height: 50,
+                                          minWidth:
+                                              Utils.displayWidth(context) * 0.3,
+                                          color: const Color.fromARGB(
+                                              179, 1, 59, 101),
+                                          onPressed: _toggleScan,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                _isScanning
+                                                    ? Icons.pause
+                                                    : Icons.play_arrow,
+                                                color: Colors.white70,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                _isScanning ? "PAUSE" : "RESUME",
+                                                style: const TextStyle(
+                                                    color: Colors.white70,
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ))
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: MaterialButton(
+                                          height: 50,
+                                          minWidth:
+                                              Utils.displayWidth(context) * 0.3,
+                                          color: const Color.fromARGB(
+                                              179, 1, 59, 101),
+                                          onPressed: () async {
+                                            await controller?.resumeCamera();
+                                          },
+                                          child: const Text(
+                                            "VERIFY CARD",
+                                            style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 16),
+                                          ),
+                                        )),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: MaterialButton(
+                                      height: 50,
+                                      minWidth: Utils.displayWidth(context) * 0.3,
+                                      color:
+                                          const Color.fromARGB(179, 1, 59, 101),
+                                      onPressed: () async {
+                                        setState(() {
+                                          _isVerify = !_isVerify;
+                                        });
+                                        print(
+                                            "************  verify OTP *********");
+                                        print(_isVerify);
+                                        print("********************");
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            _isVerify
+                                                ? Icons.numbers_outlined
+                                                : Icons.scanner_outlined,
+                                            color: Colors.white70,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            _isVerify
+                                                ? "verify".toUpperCase()
+                                                : "scan".toUpperCase(),
+                                            style: const TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            if (result != null)
+                              Text(
+                                  'QRCODE Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                            else
+                              const Text(''),
+                          ],
+                        ),
                       ),
                     );
             }));
   }
 
 // active participants
-  Widget activeParticipants() {
-    return Container(
-        height: Utils.displayHeight(context),
-        // color: Colors.green,
-        child: ListView.builder(
-            //  controller: _ordersController,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, bottom: 5.0, top: 5),
-                  child: InkWell(
-                      onTap: () {},
-                      child: ParticipantCard(
-                        participant: participantModels[index],
-                      )));
-            }));
-  }
+  // Widget activeParticipants() {
+  //       final _participantProvider = Provider.of<ParticipantProvider>(context);
+  //   return Container(
+  //       height: Utils.displayHeight(context),
+  //       // color: Colors.green,
+  //       child: ListView.builder(
+  //           //  controller: _ordersController,
+  //           shrinkWrap: true,
+  //           physics: const NeverScrollableScrollPhysics(),
+  //           scrollDirection: Axis.vertical,
+  //           itemCount: 3,
+  //           itemBuilder: (context, index) {
+  //             return Padding(
+  //                 padding: const EdgeInsets.only(
+  //                     left: 15.0, right: 15.0, bottom: 5.0, top: 5),
+  //                 child: InkWell(
+  //                     onTap: () {},
+  //                     child: ParticipantCard(
+  //                       participant: _participantProvider.fetchParticipants[index],
+  //                     )));
+  //           }));
+  // }
 
   Widget _verifyTextField(BuildContext context) {
     final _eventProvider = Provider.of<EventProvider>(context);
@@ -384,7 +390,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
               onCompleted: (pin) {
                 print("*****************************");
                 print("Completed: " + pin);
-                _eventProvider.checkCard(pin: pin, eventId: 1);
+                _eventProvider.checkCard(pin: pin, eventId: this.widget.id);
                 otpController.clear();
               }),
         ],
@@ -414,6 +420,8 @@ class _EventViewScreenState extends State<EventViewScreen> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+    final _eventProvider = Provider.of<EventProvider>(context);
+
     setState(() {
       this.controller = controller;
     });
@@ -424,6 +432,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
       if (_isScanning) {
         print("**********  SCANNED DATA   *********");
         print(result);
+        // _eventProvider.checkCard(pin: result.code, eventId: this.widget.id);
         print("*************************************");
       }
     });

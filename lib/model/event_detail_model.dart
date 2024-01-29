@@ -1,3 +1,6 @@
+// To parse this JSON data, do
+//
+//     final eventDetail = eventDetailFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -41,12 +44,14 @@ class Data {
     String venue;
     DateTime startDate;
     DateTime endDate;
-    int capasity;
+    String capasity;
     String status;
     DateTime createdAt;
     DateTime updatedAt;
     dynamic deletedAt;
     String userId;
+    String startAt;
+    String address;
     List<dynamic> scanners;
 
     Data({
@@ -61,8 +66,10 @@ class Data {
         required this.status,
         required this.createdAt,
         required this.updatedAt,
-        this.deletedAt,
+        required this.deletedAt,
         required this.userId,
+        required this.startAt,
+        required this.address,
         required this.scanners,
     });
 
@@ -80,6 +87,8 @@ class Data {
         updatedAt: DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         userId: json["user_id"],
+        startAt: json["start_at"],
+        address: json["address"],
         scanners: List<dynamic>.from(json["scanners"].map((x) => x)),
     );
 
@@ -97,6 +106,8 @@ class Data {
         "updated_at": updatedAt.toIso8601String(),
         "deleted_at": deletedAt,
         "user_id": userId,
+        "start_at": startAt,
+        "address": address,
         "scanners": List<dynamic>.from(scanners.map((x) => x)),
     };
 }

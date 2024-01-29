@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/model/event_model.dart';
-import 'package:invitation/network/provider/event_provider.dart';
+import 'package:invitation/network/provider/events_provider.dart';
+import 'package:invitation/network/provider/participant_provider.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
 import 'package:invitation/page/Auth/login_screen_bloc.dart';
 import 'package:invitation/page/screen/event_view_screen.dart';

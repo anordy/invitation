@@ -53,9 +53,10 @@ class EventProvider extends ChangeNotifier {
     print("****** response from Events *******");
     print(response.body);
     print("****************************");
+    final result = eventModelFromJson(response.body);
+
     try {
-      if (response.statusCode == 200) {
-        final result = eventModelFromJson(response.body);
+      if (result.code == 200) {
         print(result);
         _availableEvents = result.data;
         print("======  available Events ====");
@@ -130,7 +131,7 @@ class EventProvider extends ChangeNotifier {
    * Card check
    */
 
-  Future<bool> checkCard({required String pin, required int eventId}) async {
+  Future<bool> checkCard({required String pin, required String eventId}) async {
     print({"pin": pin, "event_id": eventId});
     _isLoading = false;
     _hasError = true;
@@ -167,7 +168,7 @@ class EventProvider extends ChangeNotifier {
                   color: Colors.white,
                   bgColor: Colors.green,
                   description: "User check-in successful!"),
-              duration: const Duration(seconds: 2),
+              duration: const Duration(seconds: 15),
               position: ToastPosition.top,
             );
         notifyListeners();
