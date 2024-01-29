@@ -153,186 +153,185 @@ class _EventViewScreenState extends State<EventViewScreen> {
                   : Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, left: 8.0, right: 8.0),
-                      child: Expanded(
-                        child: Column(
-                          children: [
-                            // Text(
-                            //   _eventProvider.availableEventDetail!.data.title,
-                            //   style: const TextStyle(
-                            //       color: Colors.white,
-                            //       fontSize: 20,
-                            //       fontWeight: FontWeight.bold),
-                            // ),
-                            // const SizedBox(
-                            //   height: 5.0,
-                            // ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            //   children: [
-                            //     Column(
-                            //       children: [
-                            //         Text(
-                            //           "${_eventProvider.availableEventDetail!.data.capasity}",
-                            //           style: const TextStyle(
-                            //               color: Colors.white70, fontSize: 16),
-                            //         ),
-                            //         const Text(
-                            //           "All",
-                            //           style: TextStyle(
-                            //               color: Colors.white38, fontSize: 16),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //     const Column(
-                            //       children: [
-                            //         Text(
-                            //           "50",
-                            //           style: TextStyle(
-                            //               color: Colors.white70, fontSize: 16),
-                            //         ),
-                            //         Text(
-                            //           "Active",
-                            //           style: TextStyle(
-                            //               color: Colors.white38, fontSize: 16),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //     const Column(
-                            //       children: [
-                            //         Text(
-                            //           "50",
-                            //           style: TextStyle(
-                            //               color: Colors.white70, fontSize: 16),
-                            //         ),
-                            //         Text(
-                            //           "InActive",
-                            //           style: TextStyle(
-                            //               color: Colors.white38, fontSize: 16),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ],
-                            // ),
-                            const SizedBox(
-                              height: 25.0,
-                            ),
-                            Container(
-                              height: Utils.displayHeight(context) * 0.5,
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Expanded(
-                                  child: _isVerify
-                                      ? _buildQrView(context)
-                                      : _verifyTextField(context)),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _isVerify
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: MaterialButton(
-                                          height: 50,
-                                          minWidth:
-                                              Utils.displayWidth(context) * 0.3,
-                                          color: const Color.fromARGB(
-                                              179, 1, 59, 101),
-                                          onPressed: _toggleScan,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                _isScanning
-                                                    ? Icons.pause
-                                                    : Icons.play_arrow,
-                                                color: Colors.white70,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                _isScanning ? "PAUSE" : "RESUME",
-                                                style: const TextStyle(
-                                                    color: Colors.white70,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ))
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: MaterialButton(
-                                          height: 50,
-                                          minWidth:
-                                              Utils.displayWidth(context) * 0.3,
-                                          color: const Color.fromARGB(
-                                              179, 1, 59, 101),
-                                          onPressed: () async {
-                                            await controller?.resumeCamera();
-                                          },
-                                          child: const Text(
-                                            "VERIFY CARD",
-                                            style: TextStyle(
-                                                color: Colors.white70,
-                                                fontSize: 16),
-                                          ),
-                                        )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: MaterialButton(
-                                      height: 50,
-                                      minWidth: Utils.displayWidth(context) * 0.3,
-                                      color:
-                                          const Color.fromARGB(179, 1, 59, 101),
-                                      onPressed: () async {
-                                        setState(() {
-                                          _isVerify = !_isVerify;
-                                        });
-                                        print(
-                                            "************  verify OTP *********");
-                                        print(_isVerify);
-                                        print("********************");
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            _isVerify
-                                                ? Icons.numbers_outlined
-                                                : Icons.scanner_outlined,
-                                            color: Colors.white70,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            _isVerify
-                                                ? "verify".toUpperCase()
-                                                : "scan".toUpperCase(),
-                                            style: const TextStyle(
-                                                color: Colors.white70,
-                                                fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            if (result != null)
-                              Text(
-                                  'QRCODE Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                            else
-                              const Text(''),
-                          ],
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            _eventProvider.availableEventDetail!.data.title,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "${_eventProvider.availableEventDetail!.data.capasity}",
+                                    style: const TextStyle(
+                                        color: Colors.white70, fontSize: 16),
+                                  ),
+                                  const Text(
+                                    "All",
+                                    style: TextStyle(
+                                        color: Colors.white38, fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              const Column(
+                                children: [
+                                  Text(
+                                    "50",
+                                    style: TextStyle(
+                                        color: Colors.white70, fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Active",
+                                    style: TextStyle(
+                                        color: Colors.white38, fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              const Column(
+                                children: [
+                                  Text(
+                                    "50",
+                                    style: TextStyle(
+                                        color: Colors.white70, fontSize: 16),
+                                  ),
+                                  Text(
+                                    "InActive",
+                                    style: TextStyle(
+                                        color: Colors.white38, fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                       
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 25.0,
+                          ),
+                          Container(
+                            height: Utils.displayHeight(context) * 0.5,
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Expanded(
+                                child: _isVerify
+                                    ? _buildQrView(context)
+                                    : _verifyTextField(context)),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _isVerify
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: MaterialButton(
+                                        height: 50,
+                                        minWidth:
+                                            Utils.displayWidth(context) * 0.3,
+                                        color: const Color.fromARGB(
+                                            179, 1, 59, 101),
+                                        onPressed: _toggleScan,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              _isScanning
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
+                                              color: Colors.white70,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              _isScanning ? "PAUSE" : "RESUME",
+                                              style: const TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: MaterialButton(
+                                        height: 50,
+                                        minWidth:
+                                            Utils.displayWidth(context) * 0.3,
+                                        color: const Color.fromARGB(
+                                            179, 1, 59, 101),
+                                        onPressed: () async {
+                                          await controller?.resumeCamera();
+                                        },
+                                        child: const Text(
+                                          "VERIFY CARD",
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16),
+                                        ),
+                                      )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: MaterialButton(
+                                    height: 50,
+                                    minWidth: Utils.displayWidth(context) * 0.3,
+                                    color:
+                                        const Color.fromARGB(179, 1, 59, 101),
+                                    onPressed: () async {
+                                      setState(() {
+                                        _isVerify = !_isVerify;
+                                      });
+                                      print(
+                                          "************  verify OTP *********");
+                                      print(_isVerify);
+                                      print("********************");
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          _isVerify
+                                              ? Icons.numbers_outlined
+                                              : Icons.scanner_outlined,
+                                          color: Colors.white70,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          _isVerify
+                                              ? "verify".toUpperCase()
+                                              : "scan".toUpperCase(),
+                                          style: const TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          if (result != null)
+                            Text(
+                                'QRCODE Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                          else
+                            const Text(''),
+                        ],
                       ),
                     );
             }));
