@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/model/event_model.dart';
@@ -26,28 +28,17 @@ class EventViewScreen extends StatefulWidget {
   _EventViewScreenState createState() => _EventViewScreenState();
 }
 
-class _EventViewScreenState extends State<EventViewScreen> {
+class _EventViewScreenState extends State<EventViewScreen>
+    with TickerProviderStateMixin {
   ScrollController _ordersController = new ScrollController();
   OtpFieldController otpController = OtpFieldController();
+  String _scanBarcode = 'Unknown';
 
   Barcode? result;
   QRViewController? controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  bool _isScanning = true;
-  bool _isVerify = true;
-  void _toggleScan() {
-    setState(() {
-      if (_isScanning) {
-        controller?.pauseCamera();
-        _isScanning = false;
-      } else {
-        controller?.resumeCamera();
-        _isScanning = true;
-      }
-    });
-  }
+  bool _isVerify = false;
 
-  TabController? _tabController;
+  late TabController _tabController;
   List<Widget> list = [
     const Tab(
       text: "SCAN",
@@ -60,13 +51,40 @@ class _EventViewScreenState extends State<EventViewScreen> {
 
   bool changeLanguage = false;
   String currentLocale = "";
+
+  Future<void> scanQR() async {
+    final _eventProvider = Provider.of<EventProvider>(context, listen: false);
+
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+    _eventProvider.checkCard(pin: _scanBarcode, eventId: this.widget.id);
+  }
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     Future.delayed(Duration.zero).then((_) {
       Provider.of<EventProvider>(context, listen: false)
           .fetchEventDetail(id: this.widget.id);
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -148,7 +166,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
             scrollDirection: Axis.vertical,
             itemCount: 1,
             itemBuilder: (context, index) {
-              return _eventProvider.isEventDetailLoading
+              return _eventProvider!.isEventDetailLoading
                   ? const Loading()
                   : Padding(
                       padding: const EdgeInsets.only(
@@ -156,11 +174,13 @@ class _EventViewScreenState extends State<EventViewScreen> {
                       child: Column(
                         children: [
                           Text(
-                            _eventProvider.availableEventDetail!.data.title,
+                            _eventProvider.availableEventDetail?.data.title ??
+                                'No Title Available',
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(
                             height: 5.0,
@@ -171,7 +191,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
                               Column(
                                 children: [
                                   Text(
-                                    "${_eventProvider.availableEventDetail!.data.capasity}",
+                                    "${_eventProvider.availableEventDetail?.data.capasity}",
                                     style: const TextStyle(
                                         color: Colors.white70, fontSize: 16),
                                   ),
@@ -210,7 +230,6 @@ class _EventViewScreenState extends State<EventViewScreen> {
                                   ),
                                 ],
                               ),
-                       
                             ],
                           ),
                           const SizedBox(
@@ -221,10 +240,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
                             decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Expanded(
-                                child: _isVerify
-                                    ? _buildQrView(context)
-                                    : _verifyTextField(context)),
+                            child: Expanded(child: _verifyTextField(context)),
                           ),
                           const SizedBox(
                             height: 30,
@@ -232,54 +248,19 @@ class _EventViewScreenState extends State<EventViewScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _isVerify
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: MaterialButton(
-                                        height: 50,
-                                        minWidth:
-                                            Utils.displayWidth(context) * 0.3,
-                                        color: const Color.fromARGB(
-                                            179, 1, 59, 101),
-                                        onPressed: _toggleScan,
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              _isScanning
-                                                  ? Icons.pause
-                                                  : Icons.play_arrow,
-                                              color: Colors.white70,
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              _isScanning ? "PAUSE" : "RESUME",
-                                              style: const TextStyle(
-                                                  color: Colors.white70,
-                                                  fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                      ))
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: MaterialButton(
-                                        height: 50,
-                                        minWidth:
-                                            Utils.displayWidth(context) * 0.3,
-                                        color: const Color.fromARGB(
-                                            179, 1, 59, 101),
-                                        onPressed: () async {
-                                          await controller?.resumeCamera();
-                                        },
-                                        child: const Text(
-                                          "VERIFY CARD",
-                                          style: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 16),
-                                        ),
-                                      )),
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: MaterialButton(
+                                    height: 50,
+                                    minWidth: Utils.displayWidth(context) * 0.3,
+                                    color: const Color.fromARGB(179, 2, 37, 62),
+                                    onPressed: () async {},
+                                    child: const Text(
+                                      "VERIFY CARD",
+                                      style: TextStyle(
+                                          color: Colors.white70, fontSize: 16),
+                                    ),
+                                  )),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -288,32 +269,19 @@ class _EventViewScreenState extends State<EventViewScreen> {
                                   child: MaterialButton(
                                     height: 50,
                                     minWidth: Utils.displayWidth(context) * 0.3,
-                                    color:
-                                        const Color.fromARGB(179, 1, 59, 101),
-                                    onPressed: () async {
-                                      setState(() {
-                                        _isVerify = !_isVerify;
-                                      });
-                                      print(
-                                          "************  verify OTP *********");
-                                      print(_isVerify);
-                                      print("********************");
-                                    },
+                                    color: const Color.fromARGB(179, 2, 37, 62),
+                                    onPressed: () => scanQR(),
                                     child: Row(
                                       children: [
-                                        Icon(
-                                          _isVerify
-                                              ? Icons.numbers_outlined
-                                              : Icons.scanner_outlined,
+                                        const Icon(
+                                          Icons.scanner_outlined,
                                           color: Colors.white70,
                                         ),
                                         const SizedBox(
                                           width: 10,
                                         ),
                                         Text(
-                                          _isVerify
-                                              ? "verify".toUpperCase()
-                                              : "scan".toUpperCase(),
+                                          "scan".toUpperCase(),
                                           style: const TextStyle(
                                               color: Colors.white70,
                                               fontSize: 16),
@@ -326,9 +294,8 @@ class _EventViewScreenState extends State<EventViewScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          if (result != null)
-                            Text(
-                                'QRCODE Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                          if (_scanBarcode != null)
+                            Text('INVITATION CODE: ${_scanBarcode}')
                           else
                             const Text(''),
                         ],
@@ -395,60 +362,5 @@ class _EventViewScreenState extends State<EventViewScreen> {
         ],
       ),
     );
-  }
-
-  Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 300.0
-        : 450.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-          borderColor: AppColor.base,
-          borderRadius: 10,
-          borderLength: 20,
-          borderWidth: 7,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-    );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    final _eventProvider = Provider.of<EventProvider>(context);
-
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-      if (_isScanning) {
-        print("**********  SCANNED DATA   *********");
-        print(result);
-        // _eventProvider.checkCard(pin: result.code, eventId: this.widget.id);
-        print("*************************************");
-      }
-    });
-  }
-
-  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-    if (!p) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
   }
 }

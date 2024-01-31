@@ -58,6 +58,9 @@ dependencies:
   freezed_annotation: ^2.4.1
   flutter_localization: ^0.2.0
   nb_utils: ^6.0.4
+  url_launcher: ^6.2.4
+  qr_flutter: ^4.1.0
+  flutter_barcode_scanner: ^2.0.0
   
 
 dev_dependencies:

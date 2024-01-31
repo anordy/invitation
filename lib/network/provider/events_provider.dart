@@ -22,7 +22,7 @@ class EventProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   bool? _isEventLoading;
-  late bool _isEventDetailLoading;
+   bool _isEventDetailLoading = false;
   bool _hasError = false;
   String? accessToken;
   EventDetail? _availableEventDetail;

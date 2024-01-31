@@ -6,6 +6,8 @@ import 'package:invitation/network/provider/participant_provider.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
 import 'package:invitation/page/Auth/login_screen_bloc.dart';
 import 'package:invitation/page/screen/event_view_screen.dart';
+import 'package:invitation/page/screen/scan_qr_code.dart';
+import 'package:invitation/page/screen/scanner_screen.dart';
 import 'package:invitation/widget/toast_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -172,14 +174,20 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       return InkWell(
                           onTap: () {
-                            Navigator.push(
+                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EventViewScreen(
-                                          id: _eventProvider
+                                    builder: (context) => ScanQRCode(id: _eventProvider
                                               .availableEvents[index].id
-                                              .toString(),
-                                        )));
+                                              .toString(),)));
+                            // Navigator.push(
+                                // context,
+                                // MaterialPageRoute(
+                                //     builder: (context) => EventViewScreen(
+                                //           id: _eventProvider
+                                //               .availableEvents[index].id
+                                //               .toString(),
+                                //         )));
                           },
                           child: EventCard(
                             eventModel: _eventProvider.availableEvents[index],
