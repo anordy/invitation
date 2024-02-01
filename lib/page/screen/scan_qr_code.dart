@@ -134,23 +134,23 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                             borderRadius: BorderRadius.circular(10),
                             child: MaterialButton(
                               height: 50,
-                              minWidth: Utils.displayWidth(context) * 0.3,
+                              minWidth: Utils.displayWidth(context) * 0.9,
                               color: const Color.fromARGB(179, 2, 37, 62),
                               onPressed: () => scanQR(),
-                              child: const Text(
-                                "SCAN",
-                                style: TextStyle(
+                              child:  Text(
+                                "SCAN CARD".toUpperCase(),
+                                style: const TextStyle(
                                     color: Colors.white70, fontSize: 16),
                               ),
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: MaterialButton(
                               height: 50,
-                              minWidth: Utils.displayWidth(context) * 0.3,
+                              minWidth: Utils.displayWidth(context) * 0.9,
                               color: const Color.fromARGB(179, 2, 37, 62),
                               onPressed: () async {
                                 Navigator.push(
@@ -159,15 +159,15 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                                         builder: (context) => VerifyCardScan(
                                             id: this.widget.id)));
                               },
-                              child: const Text(
-                                "VERIFY CARD",
-                                style: TextStyle(
+                              child: Text(
+                                "VERIFY CARD".toUpperCase(),
+                                style: const TextStyle(
                                     color: Colors.white70, fontSize: 16),
                               ),
                             )),
                            
                         Text('Scan result : $_scanBarcode\n',
-                            style: TextStyle(fontSize: 20))
+                            style: const TextStyle(fontSize: 20))
                       ]));
             })));
   }
