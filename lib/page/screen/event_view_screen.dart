@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/model/event_model.dart';
-import 'package:invitation/network/provider/event_provider.dart';
 import 'package:invitation/widget/loading.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../../card/ParticipantCard.dart';
 import '../../model/participant_model.dart';
@@ -62,8 +60,8 @@ class _EventViewScreenState extends State<EventViewScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((_) {
-      Provider.of<EventProvider>(context, listen: false)
-          .fetchEventDetail(id: this.widget.id);
+      // Provider.of<EventProvider>(context, listen: false)
+      //     .fetchEventDetail(id: this.widget.id);
     });
   }
 
@@ -136,7 +134,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
   }
 
   Widget scanCard() {
-    final _eventProvider = Provider.of<EventProvider>(context);
+    // final _eventProvider = Provider.of<EventProvider>(context);
     return Container(
         height: Utils.displayHeight(context),
         child: ListView.builder(
@@ -146,15 +144,12 @@ class _EventViewScreenState extends State<EventViewScreen> {
             scrollDirection: Axis.vertical,
             itemCount: 1,
             itemBuilder: (context, index) {
-              return _eventProvider.isEventDetailLoading
-                  ? const Loading()
-                  : Padding(
+              return Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, left: 8.0, right: 8.0),
                       child: Column(
                         children: [
-                          Text(
-                            _eventProvider.availableEventDetail!.data.title,
+                          Text("Anord wed",
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -169,7 +164,7 @@ class _EventViewScreenState extends State<EventViewScreen> {
                               Column(
                                 children: [
                                   Text(
-                                    "${_eventProvider.availableEventDetail!.data.capasity}",
+                                    "300",
                                     style: const TextStyle(
                                         color: Colors.white70, fontSize: 16),
                                   ),

@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:invitation/network/provider/event_provider.dart';
 import 'package:invitation/page/screen/verify_card_screen.dart';
 import 'package:invitation/utils/colors.dart';
 import 'package:invitation/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class ScanQRCode extends StatefulWidget {
   final String id;
@@ -23,13 +21,13 @@ class _ScanQRCodeState extends State<ScanQRCode> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((_) {
-      Provider.of<EventProvider>(context, listen: false)
-          .fetchEventDetail(id: this.widget.id);
+      // Provider.of<EventProvider>(context, listen: false)
+      //     .fetchEventDetail(id: this.widget.id);
     });
   }
 
   Future<void> scanQR() async {
-    final _eventProvider = Provider.of<EventProvider>(context,listen: false);
+    // final _eventProvider = Provider.of<EventProvider>(context,listen: false);
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
@@ -45,13 +43,12 @@ class _ScanQRCodeState extends State<ScanQRCode> {
     setState(() {
       _scanBarcode = barcodeScanRes;
     });
-        _eventProvider.checkCard(pin: _scanBarcode, eventId: this.widget.id);
+        // _eventProvider.checkCard(pin: _scanBarcode, eventId: this.widget.id);
 
   }
 
   @override
   Widget build(BuildContext context) {
-        final _eventProvider = Provider.of<EventProvider>(context);
     return MaterialApp(
         home: Scaffold(
         
@@ -72,9 +69,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                       children: <Widget>[
                          Padding(
               padding: const EdgeInsets.only(top: 50.0),
-              child: Text(
-                _eventProvider.availableEventDetail?.data.title ??
-                    'No Title Available',
+              child: Text('No Title Available',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -91,7 +86,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                 Column(
                   children: [
                     Text(
-                      "${_eventProvider.availableEventDetail?.data.capasity}",
+                      "300",
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 16),
                     ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:invitation/network/provider/event_provider.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:provider/provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
 
@@ -20,7 +18,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
 
   @override
   Widget build(BuildContext context) {
-    final _eventProvider = Provider.of<EventProvider>(context);
+    // final _eventProvider = Provider.of<EventProvider>(context);
     return SafeArea(
       child: Scaffold(
           body: Container(
@@ -41,9 +39,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 50.0),
-              child: Text(
-                _eventProvider.availableEventDetail?.data.title ??
-                    'No Title Available',
+              child: Text('No Title Available',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -60,7 +56,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                 Column(
                   children: [
                     Text(
-                      "${_eventProvider.availableEventDetail?.data.capasity}",
+                      "300",
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 16),
                     ),
