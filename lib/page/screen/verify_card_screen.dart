@@ -37,10 +37,10 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
         ),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 50.0),
               child: Text('No Title Available',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
             const SizedBox(
               height: 5.0,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
@@ -58,15 +58,15 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                     Text(
                       "300",
                       style:
-                          const TextStyle(color: Colors.white70, fontSize: 16),
+                          TextStyle(color: Colors.white70, fontSize: 16),
                     ),
-                    const Text(
+                    Text(
                       "All",
                       style: TextStyle(color: Colors.white38, fontSize: 16),
                     ),
                   ],
                 ),
-                const Column(
+                Column(
                   children: [
                     Text(
                       "50",
@@ -78,7 +78,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                     ),
                   ],
                 ),
-                const Column(
+                Column(
                   children: [
                     Text(
                       "50",

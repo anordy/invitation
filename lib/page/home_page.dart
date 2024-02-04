@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => EventViewScreen(id: events[index].id.toString(),)));
+                                        builder: (context) => ScanQRCode(id: events[index].id.toString(),)));
                               },
                               child: EventCard(
                                 eventModel: events[index],
