@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invitation/cubits/event/cubit/event_cubit.dart';
 import 'package:invitation/page/screen/verify_card_screen.dart';
 import 'package:invitation/utils/colors.dart';
 import 'package:invitation/utils/utils.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class ScanQRCode extends StatefulWidget {
   final String id;
@@ -17,7 +20,7 @@ class ScanQRCode extends StatefulWidget {
 class _ScanQRCodeState extends State<ScanQRCode> {
   String _scanBarcode = 'Unknown';
 
-   @override
+  @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((_) {
@@ -43,60 +46,84 @@ class _ScanQRCodeState extends State<ScanQRCode> {
     setState(() {
       _scanBarcode = barcodeScanRes;
     });
-        // _eventProvider.checkCard(pin: _scanBarcode, eventId: this.widget.id);
-
+    // _eventProvider.checkCard(pin: _scanBarcode, eventId: this.widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<EventCubit>(context).fetchEvent(this.widget.id);
     return MaterialApp(
-        home: Scaffold(
-        
-            body: Builder(builder: (BuildContext context) {
-              return Container(
-                  height: Utils.displayHeight(context),
-                  width: Utils.displayWidth(context),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                    colors: [AppColor.prebase, AppColor.base],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    //tileMode: TileMode.repeated,
-                  )),
-                  alignment: Alignment.center,
-                  child: Column(
-                  
-                      children: <Widget>[
-                         Padding(
+        home: Scaffold(body: Builder(builder: (BuildContext context) {
+      return Container(
+          height: Utils.displayHeight(context),
+          width: Utils.displayWidth(context),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [AppColor.prebase, AppColor.base],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            //tileMode: TileMode.repeated,
+          )),
+          alignment: Alignment.center,
+          child: Column(children: <Widget>[
+            Padding(
               padding: const EdgeInsets.only(top: 50.0),
-              child: Text('No Title Available',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: BlocBuilder<EventCubit, EventState>(
+                bloc: EventCubit()..fetchEvent(this.widget.id),
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Loader();
+                    },
+                    success: (event) {
+                      return Container(
+                        height: Utils.displayHeight(context) * 0.05,
+                        child: Text(
+                          event.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    },
+                    failure: (errorMessage) {
+                      print(errorMessage);
+                      return Container(
+                          height: Utils.displayHeight(context) * 0.05,
+                          child: const Text(
+                            "No Title available",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ));
+                    },
+                  );
+                },
               ),
             ),
             const SizedBox(
               height: 5.0,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
                     Text(
                       "300",
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 16),
+                      style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
-                    const Text(
+                    Text(
                       "All",
                       style: TextStyle(color: Colors.white38, fontSize: 16),
                     ),
                   ],
                 ),
-                const Column(
+                Column(
                   children: [
                     Text(
                       "50",
@@ -108,7 +135,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                     ),
                   ],
                 ),
-                const Column(
+                Column(
                   children: [
                     Text(
                       "50",
@@ -125,45 +152,42 @@ class _ScanQRCodeState extends State<ScanQRCode> {
             const SizedBox(
               height: 50.0,
             ),
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: MaterialButton(
-                              height: 50,
-                              minWidth: Utils.displayWidth(context) * 0.9,
-                              color: const Color.fromARGB(179, 2, 37, 62),
-                              onPressed: () => scanQR(),
-                              child:  Text(
-                                "SCAN CARD".toUpperCase(),
-                                style: const TextStyle(
-                                    color: Colors.white70, fontSize: 16),
-                              ),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: MaterialButton(
-                              height: 50,
-                              minWidth: Utils.displayWidth(context) * 0.9,
-                              color: const Color.fromARGB(179, 2, 37, 62),
-                              onPressed: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => VerifyCardScan(
-                                            id: this.widget.id)));
-                              },
-                              child: Text(
-                                "VERIFY CARD".toUpperCase(),
-                                style: const TextStyle(
-                                    color: Colors.white70, fontSize: 16),
-                              ),
-                            )),
-                           
-                        Text('Scan result : $_scanBarcode\n',
-                            style: const TextStyle(fontSize: 20))
-                      ]));
-            })));
+            ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: MaterialButton(
+                  height: 50,
+                  minWidth: Utils.displayWidth(context) * 0.9,
+                  color: const Color.fromARGB(179, 2, 37, 62),
+                  onPressed: () => scanQR(),
+                  child: Text(
+                    "SCAN CARD".toUpperCase(),
+                    style: const TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                )),
+            const SizedBox(
+              height: 10,
+            ),
+            ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: MaterialButton(
+                  height: 50,
+                  minWidth: Utils.displayWidth(context) * 0.9,
+                  color: const Color.fromARGB(179, 2, 37, 62),
+                  onPressed: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                VerifyCardScan(id: this.widget.id)));
+                  },
+                  child: Text(
+                    "VERIFY CARD".toUpperCase(),
+                    style: const TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                )),
+            Text('Scan result : $_scanBarcode\n',
+                style: const TextStyle(fontSize: 20))
+          ]));
+    })));
   }
 }

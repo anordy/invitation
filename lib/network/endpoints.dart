@@ -7,6 +7,7 @@ const String loginED = '/login';
 
 // Events API
 const String eventsListED = '/events';
-const String eventsDetailED = '/event/details/';
+const String eventDetailED = '/event/details/';
+const String eventScanCardED = '/scan/invitation/card';
 
 

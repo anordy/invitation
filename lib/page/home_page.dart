@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invitation/card/EventCard.dart';
-import 'package:invitation/cubits/event/cubit/event_list_cubit.dart';
+import 'package:invitation/cubits/event/cubit/event_cubit.dart';
+import 'package:invitation/cubits/events/cubit/event_list_cubit.dart';
 import 'package:invitation/features/auth/cubit/auth_cubit.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
-import 'package:invitation/page/screen/event_view_screen.dart';
 import 'package:invitation/page/screen/scan_qr_screen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -118,8 +117,6 @@ class _HomePageState extends State<HomePage> {
           BlocBuilder<EventListCubit, EventListState>(
             bloc: EventListCubit()..fetchEventLists(),
             builder: (context, state) {
-              print("*************** sample **********");
-              print(state);
               return state.maybeWhen(
                 orElse: () {
                   return Loader();
@@ -153,7 +150,6 @@ class _HomePageState extends State<HomePage> {
                   // );
                 },
                 success: (events) {
-                  print("*********** events ******");
                   return Container(
                     height: Utils.displayHeight(context) * 0.6,
                     child: ListView.builder(
@@ -193,49 +189,7 @@ class _HomePageState extends State<HomePage> {
             },
           ),
 
-          // Container(
-          //   // color: Colors.red,
-          //   height: Utils.displayHeight(context) * 0.6,
-          //   child: _eventProvider.availableEvents == null ||
-          //           _eventProvider.availableEvents.length <= 0
-          //       ? const Center(
-          //           child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             Icon(
-          //               Icons.card_giftcard_outlined,
-          //               color: Colors.white,
-          //             ),
-          //             SizedBox(
-          //               height: 10,
-          //             ),
-          //             Text(
-          //               "No available event yet",
-          //               style: TextStyle(color: Colors.white),
-          //             )
-          //           ],
-          //         ))
-          //       : ListView.builder(
-          //           scrollDirection: Axis.vertical,
-          //           padding: const EdgeInsets.only(top: 10),
-          //           itemCount: _eventProvider.availableEvents.length,
-          //           itemBuilder: (context, index) {
-          //             return InkWell(
-          //                 onTap: () {
-          //                   Navigator.push(
-          //                       context,
-          //                       MaterialPageRoute(
-          //                           builder: (context) => EventViewScreen(
-          //                                 id: _eventProvider
-          //                                     .availableEvents[index].id
-          //                                     .toString(),
-          //                               )));
-          //                 },
-          //                 child: EventCard(
-          //                   eventModel: _eventProvider.availableEvents[index],
-          //                 ));
-          //           }),
-          // )
+         
         ]),
       ),
     )));

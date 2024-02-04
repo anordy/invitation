@@ -1,39 +1,42 @@
+// To parse this JSON data, do
+//
+//     final eventDetailModel = eventDetailModelFromJson(jsonString);
 
 import 'dart:convert';
 
-EventDetail eventDetailFromJson(String str) => EventDetail.fromJson(json.decode(str));
+EventDetailModel eventDetailModelFromJson(String str) => EventDetailModel.fromJson(json.decode(str));
 
-String eventDetailToJson(EventDetail data) => json.encode(data.toJson());
+String eventDetailModelToJson(EventDetailModel data) => json.encode(data.toJson());
 
-class EventDetail {
+class EventDetailModel {
     int code;
     String status;
     String message;
-    Data data;
+    EventDetail eventDetail;
 
-    EventDetail({
+    EventDetailModel({
         required this.code,
         required this.status,
         required this.message,
-        required this.data,
+        required this.eventDetail,
     });
 
-    factory EventDetail.fromJson(Map<String, dynamic> json) => EventDetail(
+    factory EventDetailModel.fromJson(Map<String, dynamic> json) => EventDetailModel(
         code: json["code"],
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        eventDetail: EventDetail.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
         "code": code,
         "status": status,
         "message": message,
-        "data": data.toJson(),
+        "data": eventDetail.toJson(),
     };
 }
 
-class Data {
+class EventDetail {
     int id;
     String title;
     String code;
@@ -41,15 +44,17 @@ class Data {
     String venue;
     DateTime startDate;
     DateTime endDate;
-    int capasity;
+    String capasity;
     String status;
     DateTime createdAt;
     DateTime updatedAt;
     dynamic deletedAt;
     String userId;
+    String startAt;
+    String address;
     List<dynamic> scanners;
 
-    Data({
+    EventDetail({
         required this.id,
         required this.title,
         required this.code,
@@ -61,12 +66,14 @@ class Data {
         required this.status,
         required this.createdAt,
         required this.updatedAt,
-        this.deletedAt,
+        required this.deletedAt,
         required this.userId,
+        required this.startAt,
+        required this.address,
         required this.scanners,
     });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+    factory EventDetail.fromJson(Map<String, dynamic> json) => EventDetail(
         id: json["id"],
         title: json["title"],
         code: json["code"],
@@ -80,6 +87,8 @@ class Data {
         updatedAt: DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         userId: json["user_id"],
+        startAt: json["start_at"],
+        address: json["address"],
         scanners: List<dynamic>.from(json["scanners"].map((x) => x)),
     );
 
@@ -97,6 +106,8 @@ class Data {
         "updated_at": updatedAt.toIso8601String(),
         "deleted_at": deletedAt,
         "user_id": userId,
+        "start_at": startAt,
+        "address": address,
         "scanners": List<dynamic>.from(scanners.map((x) => x)),
     };
 }

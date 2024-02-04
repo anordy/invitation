@@ -15,7 +15,6 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../network/provider/auth_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
 

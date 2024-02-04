@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invitation/cubits/event/cubit/event_cubit.dart';
+import 'package:invitation/cubits/event_scan/cubit/event_scan_cubit.dart';
+import 'package:invitation/page/Auth/onboarding/onboarding_screen.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
@@ -18,7 +22,6 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
 
   @override
   Widget build(BuildContext context) {
-    // final _eventProvider = Provider.of<EventProvider>(context);
     return SafeArea(
       child: Scaffold(
           body: Container(
@@ -37,14 +40,53 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
         ),
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 50.0),
-              child: Text('No Title Available',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: BlocBuilder<EventCubit, EventState>(
+                bloc: EventCubit()..fetchEvent(this.widget.id),
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container(
+                          height: Utils.displayHeight(context) * 0.05,
+                          child: const Text(
+                            "No Title available",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ));
+                      ;
+                    },
+                    success: (event) {
+                      return Container(
+                        height: Utils.displayHeight(context) * 0.05,
+                        child: Text(
+                          event.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    },
+                    failure: (errorMessage) {
+                      print(errorMessage);
+                      return Container(
+                          height: Utils.displayHeight(context) * 0.05,
+                          child: const Text(
+                            "No Title available",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ));
+                    },
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -57,8 +99,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                   children: [
                     Text(
                       "300",
-                      style:
-                          TextStyle(color: Colors.white70, fontSize: 16),
+                      style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                     Text(
                       "All",
@@ -114,7 +155,12 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                 onCompleted: (pin) {
                   print("*****************************");
                   print("Completed: " + pin);
+                  final data = {
+                    "pin": pin,
+                    "event_id": this.widget.id,
+                  };
                   // _eventProvider.checkCard(pin: pin, eventId: this.widget.id);
+                  BlocProvider.of<EventScanCubit>(context).scanCard(data);
                   otpController.clear();
                 }),
           ],

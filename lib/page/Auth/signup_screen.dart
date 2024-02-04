@@ -4,12 +4,8 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:invitation/network/connectivity_helper.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
 import 'package:invitation/page/home_page.dart';
-import 'package:invitation/widget/loading.dart';
-import 'package:invitation/widget/loading_dialog.dart.dart';
 import 'package:invitation/widget/toast_widget.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:provider/provider.dart';
-import '../../network/provider/auth_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
 
@@ -47,7 +43,6 @@ class _SignupScreenState extends State<SignupScreen> {
   String code = "TZ";
   @override
   Widget build(BuildContext context) {
-    final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
         body: GestureDetector(
       onTap: () {
@@ -305,86 +300,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     minWidth: Utils.displayWidth(context),
                     color: const Color.fromARGB(179, 1, 59, 101),
                     onPressed: () {
-                      ConnectivityHelper.isDeviceConnected()
-                          .then((isConnected) {
-                        if (isConnected) {
-                          print("************   INTERNET CONNECTED  *********");
-                          if (!_authProvider.isLoading) {
-                            if (_phoneController.text.length <= 9 &&
-                                _passwordController.text.length >= 8) {
-                              _authProvider
-                                  .signup(
-                                      phone: _phone.toString(),
-                                      fullname: _firstnameController.text +
-                                          '  ' +
-                                          _lastnameController.text,
-                                      password: _passwordController.text)
-                                  .then((value) {
-                                //     showDialog(
-                                // context: context,
-                                // barrierDismissible: false,
-                                // builder: (_) {
-                                //   return LoadingDialog();
-                                // });
-                                if (!value) {
-                                  showToastWidget(
-                                    LoggedInToast(
-                                        icon: const Icon(
-                                          Icons.done,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                        height: 50,
-                                        width: 200,
-                                        color: AppColor.success,
-                                        description: "Login Successfully"),
-                                    duration: const Duration(seconds: 2),
-                                    position: ToastPosition.top,
-                                  );
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomePage()));
-                                } else {
-                                  showToastWidget(
-                                    ToastWidget(
-                                        icon: const Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                        height: 50,
-                                        width: 300,
-                                        color: AppColor.base,
-                                        description:
-                                            "${_authProvider.authResponce.message}"),
-                                    duration: const Duration(seconds: 2),
-                                    position: ToastPosition.bottom,
-                                  );
-                                }
-                              });
-                            } else {
-                              showToastWidget(
-                                ToastWidget(
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                      size: 15,
-                                    ),
-                                    height: 50,
-                                    width: 300,
-                                    color: AppColor.base,
-                                    description: "Invalid Credential"),
-                                duration: const Duration(seconds: 2),
-                                position: ToastPosition.bottom,
-                              );
-                            }
-                          }
-                        } else {
-                          print("+===    Device not connected  ============ ");
-                        }
-                      });
+                     
                     },
                     child: const Text(
                       "SIGNUP",
