@@ -6,7 +6,8 @@ import 'package:invitation/card/EventCard.dart';
 import 'package:invitation/cubits/event/cubit/event_list_cubit.dart';
 import 'package:invitation/features/auth/cubit/auth_cubit.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
-import 'package:invitation/page/screen/scan_page.dart';
+import 'package:invitation/page/screen/event_view_screen.dart';
+import 'package:invitation/page/screen/scan_qr_screen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
@@ -165,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ScanPage()));
+                                        builder: (context) => EventViewScreen(id: events[index].id.toString(),)));
                               },
                               child: EventCard(
                                 eventModel: events[index],
@@ -176,21 +177,7 @@ class _HomePageState extends State<HomePage> {
                 failure: (errorMessage) {
                   return Container(
                     height: Utils.displayHeight(context) * 0.6,
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(top: 10),
-                        itemCount: 1,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ScanPage()));
-                              },
-                              child: Text("Something Went Wrong")
-                              );
-                        }),
+                    child:  Text("Something Went Wrong")
                   );
                   // Fluttertoast.showToast(
                   //   msg: errorMessage,
