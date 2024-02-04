@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'event_cubit.dart';
+part of 'event_list_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$EventState {
+mixin _$EventListState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic user) success,
+    required TResult Function(List<EventDatum> events) success,
     required TResult Function(String errorMessage) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$EventState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic user)? success,
+    TResult? Function(List<EventDatum> events)? success,
     TResult? Function(String errorMessage)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$EventState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic user)? success,
+    TResult Function(List<EventDatum> events)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) =>
@@ -44,41 +44,41 @@ mixin _$EventState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_EventStateLoading value) loading,
-    required TResult Function(_EventStateSuccess value) success,
-    required TResult Function(_EventStateFailure value) failure,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_EventStateLoading value)? loading,
-    TResult? Function(_EventStateSuccess value)? success,
-    TResult? Function(_EventStateFailure value)? failure,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_EventStateLoading value)? loading,
-    TResult Function(_EventStateSuccess value)? success,
-    TResult Function(_EventStateFailure value)? failure,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EventStateCopyWith<$Res> {
-  factory $EventStateCopyWith(
-          EventState value, $Res Function(EventState) then) =
-      _$EventStateCopyWithImpl<$Res, EventState>;
+abstract class $EventListStateCopyWith<$Res> {
+  factory $EventListStateCopyWith(
+          EventListState value, $Res Function(EventListState) then) =
+      _$EventListStateCopyWithImpl<$Res, EventListState>;
 }
 
 /// @nodoc
-class _$EventStateCopyWithImpl<$Res, $Val extends EventState>
-    implements $EventStateCopyWith<$Res> {
-  _$EventStateCopyWithImpl(this._value, this._then);
+class _$EventListStateCopyWithImpl<$Res, $Val extends EventListState>
+    implements $EventListStateCopyWith<$Res> {
+  _$EventListStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -87,34 +87,41 @@ class _$EventStateCopyWithImpl<$Res, $Val extends EventState>
 }
 
 /// @nodoc
-abstract class _$$_InitialCopyWith<$Res> {
-  factory _$$_InitialCopyWith(
-          _$_Initial value, $Res Function(_$_Initial) then) =
-      __$$_InitialCopyWithImpl<$Res>;
+abstract class _$$InitialImplCopyWith<$Res> {
+  factory _$$InitialImplCopyWith(
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitialCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_Initial>
-    implements _$$_InitialCopyWith<$Res> {
-  __$$_InitialCopyWithImpl(_$_Initial _value, $Res Function(_$_Initial) _then)
+class __$$InitialImplCopyWithImpl<$Res>
+    extends _$EventListStateCopyWithImpl<$Res, _$InitialImpl>
+    implements _$$InitialImplCopyWith<$Res> {
+  __$$InitialImplCopyWithImpl(
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
+  const _$InitialImpl();
 
   @override
-  String toString() {
-    return 'EventState.initial()';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'EventListState.initial()';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'EventListState.initial'));
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Initial);
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
   @override
@@ -125,7 +132,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic user) success,
+    required TResult Function(List<EventDatum> events) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return initial();
@@ -136,7 +143,7 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic user)? success,
+    TResult? Function(List<EventDatum> events)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return initial?.call();
@@ -147,7 +154,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic user)? success,
+    TResult Function(List<EventDatum> events)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -161,9 +168,9 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_EventStateLoading value) loading,
-    required TResult Function(_EventStateSuccess value) success,
-    required TResult Function(_EventStateFailure value) failure,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
   }) {
     return initial(this);
   }
@@ -172,9 +179,9 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_EventStateLoading value)? loading,
-    TResult? Function(_EventStateSuccess value)? success,
-    TResult? Function(_EventStateFailure value)? failure,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -183,9 +190,9 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_EventStateLoading value)? loading,
-    TResult Function(_EventStateSuccess value)? success,
-    TResult Function(_EventStateFailure value)? failure,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -195,40 +202,46 @@ class _$_Initial implements _Initial {
   }
 }
 
-abstract class _Initial implements EventState {
-  const factory _Initial() = _$_Initial;
+abstract class _Initial implements EventListState {
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
-abstract class _$$_EventStateLoadingCopyWith<$Res> {
-  factory _$$_EventStateLoadingCopyWith(_$_EventStateLoading value,
-          $Res Function(_$_EventStateLoading) then) =
-      __$$_EventStateLoadingCopyWithImpl<$Res>;
+abstract class _$$LoadingImplCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_EventStateLoadingCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_EventStateLoading>
-    implements _$$_EventStateLoadingCopyWith<$Res> {
-  __$$_EventStateLoadingCopyWithImpl(
-      _$_EventStateLoading _value, $Res Function(_$_EventStateLoading) _then)
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$EventListStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_EventStateLoading implements _EventStateLoading {
-  const _$_EventStateLoading();
+class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
+  const _$LoadingImpl();
 
   @override
-  String toString() {
-    return 'EventState.loading()';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'EventListState.loading()';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'EventListState.loading'));
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_EventStateLoading);
+        (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
   @override
@@ -239,7 +252,7 @@ class _$_EventStateLoading implements _EventStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic user) success,
+    required TResult Function(List<EventDatum> events) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return loading();
@@ -250,7 +263,7 @@ class _$_EventStateLoading implements _EventStateLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic user)? success,
+    TResult? Function(List<EventDatum> events)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return loading?.call();
@@ -261,7 +274,7 @@ class _$_EventStateLoading implements _EventStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic user)? success,
+    TResult Function(List<EventDatum> events)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -275,9 +288,9 @@ class _$_EventStateLoading implements _EventStateLoading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_EventStateLoading value) loading,
-    required TResult Function(_EventStateSuccess value) success,
-    required TResult Function(_EventStateFailure value) failure,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
   }) {
     return loading(this);
   }
@@ -286,9 +299,9 @@ class _$_EventStateLoading implements _EventStateLoading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_EventStateLoading value)? loading,
-    TResult? Function(_EventStateSuccess value)? success,
-    TResult? Function(_EventStateFailure value)? failure,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
   }) {
     return loading?.call(this);
   }
@@ -297,9 +310,9 @@ class _$_EventStateLoading implements _EventStateLoading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_EventStateLoading value)? loading,
-    TResult Function(_EventStateSuccess value)? success,
-    TResult Function(_EventStateFailure value)? failure,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -309,82 +322,95 @@ class _$_EventStateLoading implements _EventStateLoading {
   }
 }
 
-abstract class _EventStateLoading implements EventState {
-  const factory _EventStateLoading() = _$_EventStateLoading;
+abstract class _Loading implements EventListState {
+  const factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$_EventStateSuccessCopyWith<$Res> {
-  factory _$$_EventStateSuccessCopyWith(_$_EventStateSuccess value,
-          $Res Function(_$_EventStateSuccess) then) =
-      __$$_EventStateSuccessCopyWithImpl<$Res>;
+abstract class _$$SuccessImplCopyWith<$Res> {
+  factory _$$SuccessImplCopyWith(
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({dynamic user});
+  $Res call({List<EventDatum> events});
 }
 
 /// @nodoc
-class __$$_EventStateSuccessCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_EventStateSuccess>
-    implements _$$_EventStateSuccessCopyWith<$Res> {
-  __$$_EventStateSuccessCopyWithImpl(
-      _$_EventStateSuccess _value, $Res Function(_$_EventStateSuccess) _then)
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$EventListStateCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
+  __$$SuccessImplCopyWithImpl(
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
+    Object? events = null,
   }) {
-    return _then(_$_EventStateSuccess(
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+    return _then(_$SuccessImpl(
+      events: null == events
+          ? _value._events
+          : events // ignore: cast_nullable_to_non_nullable
+              as List<EventDatum>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_EventStateSuccess implements _EventStateSuccess {
-  const _$_EventStateSuccess({required this.user});
+class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
+  const _$SuccessImpl({required final List<EventDatum> events})
+      : _events = events;
 
+  final List<EventDatum> _events;
   @override
-  final dynamic user;
-
-  @override
-  String toString() {
-    return 'EventState.success(user: $user)';
+  List<EventDatum> get events {
+    if (_events is EqualUnmodifiableListView) return _events;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_events);
   }
 
   @override
-  bool operator ==(dynamic other) {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'EventListState.success(events: $events)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'EventListState.success'))
+      ..add(DiagnosticsProperty('events', events));
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EventStateSuccess &&
-            const DeepCollectionEquality().equals(other.user, user));
+            other is _$SuccessImpl &&
+            const DeepCollectionEquality().equals(other._events, _events));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(user));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_events));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EventStateSuccessCopyWith<_$_EventStateSuccess> get copyWith =>
-      __$$_EventStateSuccessCopyWithImpl<_$_EventStateSuccess>(
-          this, _$identity);
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic user) success,
+    required TResult Function(List<EventDatum> events) success,
     required TResult Function(String errorMessage) failure,
   }) {
-    return success(user);
+    return success(events);
   }
 
   @override
@@ -392,10 +418,10 @@ class _$_EventStateSuccess implements _EventStateSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic user)? success,
+    TResult? Function(List<EventDatum> events)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
-    return success?.call(user);
+    return success?.call(events);
   }
 
   @override
@@ -403,12 +429,12 @@ class _$_EventStateSuccess implements _EventStateSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic user)? success,
+    TResult Function(List<EventDatum> events)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(user);
+      return success(events);
     }
     return orElse();
   }
@@ -417,9 +443,9 @@ class _$_EventStateSuccess implements _EventStateSuccess {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_EventStateLoading value) loading,
-    required TResult Function(_EventStateSuccess value) success,
-    required TResult Function(_EventStateFailure value) failure,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
   }) {
     return success(this);
   }
@@ -428,9 +454,9 @@ class _$_EventStateSuccess implements _EventStateSuccess {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_EventStateLoading value)? loading,
-    TResult? Function(_EventStateSuccess value)? success,
-    TResult? Function(_EventStateFailure value)? failure,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
   }) {
     return success?.call(this);
   }
@@ -439,9 +465,9 @@ class _$_EventStateSuccess implements _EventStateSuccess {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_EventStateLoading value)? loading,
-    TResult Function(_EventStateSuccess value)? success,
-    TResult Function(_EventStateFailure value)? failure,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -451,31 +477,31 @@ class _$_EventStateSuccess implements _EventStateSuccess {
   }
 }
 
-abstract class _EventStateSuccess implements EventState {
-  const factory _EventStateSuccess({required final dynamic user}) =
-      _$_EventStateSuccess;
+abstract class _Success implements EventListState {
+  const factory _Success({required final List<EventDatum> events}) =
+      _$SuccessImpl;
 
-  dynamic get user;
+  List<EventDatum> get events;
   @JsonKey(ignore: true)
-  _$$_EventStateSuccessCopyWith<_$_EventStateSuccess> get copyWith =>
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_EventStateFailureCopyWith<$Res> {
-  factory _$$_EventStateFailureCopyWith(_$_EventStateFailure value,
-          $Res Function(_$_EventStateFailure) then) =
-      __$$_EventStateFailureCopyWithImpl<$Res>;
+abstract class _$$FailureImplCopyWith<$Res> {
+  factory _$$FailureImplCopyWith(
+          _$FailureImpl value, $Res Function(_$FailureImpl) then) =
+      __$$FailureImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String errorMessage});
 }
 
 /// @nodoc
-class __$$_EventStateFailureCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_EventStateFailure>
-    implements _$$_EventStateFailureCopyWith<$Res> {
-  __$$_EventStateFailureCopyWithImpl(
-      _$_EventStateFailure _value, $Res Function(_$_EventStateFailure) _then)
+class __$$FailureImplCopyWithImpl<$Res>
+    extends _$EventListStateCopyWithImpl<$Res, _$FailureImpl>
+    implements _$$FailureImplCopyWith<$Res> {
+  __$$FailureImplCopyWithImpl(
+      _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -483,7 +509,7 @@ class __$$_EventStateFailureCopyWithImpl<$Res>
   $Res call({
     Object? errorMessage = null,
   }) {
-    return _then(_$_EventStateFailure(
+    return _then(_$FailureImpl(
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -494,22 +520,30 @@ class __$$_EventStateFailureCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EventStateFailure implements _EventStateFailure {
-  const _$_EventStateFailure({required this.errorMessage});
+class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
+  const _$FailureImpl({required this.errorMessage});
 
   @override
   final String errorMessage;
 
   @override
-  String toString() {
-    return 'EventState.failure(errorMessage: $errorMessage)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'EventListState.failure(errorMessage: $errorMessage)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'EventListState.failure'))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EventStateFailure &&
+            other is _$FailureImpl &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
@@ -520,16 +554,15 @@ class _$_EventStateFailure implements _EventStateFailure {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EventStateFailureCopyWith<_$_EventStateFailure> get copyWith =>
-      __$$_EventStateFailureCopyWithImpl<_$_EventStateFailure>(
-          this, _$identity);
+  _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
+      __$$FailureImplCopyWithImpl<_$FailureImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic user) success,
+    required TResult Function(List<EventDatum> events) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return failure(errorMessage);
@@ -540,7 +573,7 @@ class _$_EventStateFailure implements _EventStateFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic user)? success,
+    TResult? Function(List<EventDatum> events)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return failure?.call(errorMessage);
@@ -551,7 +584,7 @@ class _$_EventStateFailure implements _EventStateFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic user)? success,
+    TResult Function(List<EventDatum> events)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -565,9 +598,9 @@ class _$_EventStateFailure implements _EventStateFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_EventStateLoading value) loading,
-    required TResult Function(_EventStateSuccess value) success,
-    required TResult Function(_EventStateFailure value) failure,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
   }
@@ -576,9 +609,9 @@ class _$_EventStateFailure implements _EventStateFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_EventStateLoading value)? loading,
-    TResult? Function(_EventStateSuccess value)? success,
-    TResult? Function(_EventStateFailure value)? failure,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
   }
@@ -587,9 +620,9 @@ class _$_EventStateFailure implements _EventStateFailure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_EventStateLoading value)? loading,
-    TResult Function(_EventStateSuccess value)? success,
-    TResult Function(_EventStateFailure value)? failure,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -599,12 +632,11 @@ class _$_EventStateFailure implements _EventStateFailure {
   }
 }
 
-abstract class _EventStateFailure implements EventState {
-  const factory _EventStateFailure({required final String errorMessage}) =
-      _$_EventStateFailure;
+abstract class _Failure implements EventListState {
+  const factory _Failure({required final String errorMessage}) = _$FailureImpl;
 
   String get errorMessage;
   @JsonKey(ignore: true)
-  _$$_EventStateFailureCopyWith<_$_EventStateFailure> get copyWith =>
+  _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

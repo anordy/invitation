@@ -121,7 +121,8 @@ class _EventViewScreenState extends State<EventViewScreen> {
                       color: Colors.transparent,
                       child: TabBarView(controller: _tabController, children: [
                         scanCard(),
-                        activeParticipants(),
+                        scanCard(),
+                        // activeParticipants(),
                       ]),
                     ),
                   ])),
@@ -323,23 +324,25 @@ class _EventViewScreenState extends State<EventViewScreen> {
             }));
   }
 // active participants
-Widget activeParticipants() {
-    return Container(
-        height: Utils.displayHeight(context),
-        // color: Colors.green,
-        child: ListView.builder(
-            //  controller: _ordersController,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, bottom: 5.0, top: 5),
-                  child: InkWell(onTap: () {}, child:  ParticipantCard(participant: participantModels[index],)));
-            }));
-  }
+// Widget activeParticipants() {
+//     return Container(
+//         height: Utils.displayHeight(context),
+//         // color: Colors.green,
+//         child: ListView.builder(
+//             //  controller: _ordersController,
+//             shrinkWrap: true,
+//             physics: const NeverScrollableScrollPhysics(),
+//             scrollDirection: Axis.vertical,
+//             itemCount: 3,
+//             itemBuilder: (context, index) {
+//               return Padding(
+//                   padding: const EdgeInsets.only(
+//                       left: 15.0, right: 15.0, bottom: 5.0, top: 5),
+//                   child: InkWell(onTap: () {}, child:  ParticipantCard(participant: participantModels[index],)));
+//             }));
+//   }
+ 
+ 
   Widget _verifyTextField(BuildContext context) {
     return Container(
       width: Utils.displayHeight(context) * 0.6,

@@ -10,7 +10,11 @@ import 'package:invitation/network/endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EventRepository {
- Future<List<EventDatum>> fetchEvents() async{
+  /**
+   * Fetch all Events
+   */
+
+  Future<List<EventDatum>> fetchEventLists() async {
     try {
       final headers = await ApiHeader().authHeader();
       final response = await DioClient.instance.get(
@@ -22,13 +26,14 @@ class EventRepository {
       response['data'].forEach((value) {
         loadedEventList.add(EventDatum.fromJson(value));
       });
+      print("**** event lists ****");
+      print(loadedEventList);
+      print("*********************");
+
       return loadedEventList.toList();
     } on DioError catch (e) {
       var error = DioException.fromDioError(e);
       throw error.errorMessage;
     }
-  }
-   Future fetch(int page) async{
-    
   }
 }

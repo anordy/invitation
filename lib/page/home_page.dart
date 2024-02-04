@@ -3,18 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invitation/card/EventCard.dart';
+import 'package:invitation/cubits/event/cubit/event_list_cubit.dart';
 import 'package:invitation/features/auth/cubit/auth_cubit.dart';
-import 'package:invitation/model/event_model.dart';
-import 'package:invitation/network/provider/event_provider.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
-import 'package:invitation/page/screen/event_view_screen.dart';
-import 'package:invitation/widget/toast_widget.dart';
+import 'package:invitation/page/screen/scan_page.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,17 +25,7 @@ class _HomePageState extends State<HomePage> {
   String? username;
   bool? isAuth;
   Map<dynamic, dynamic> user = {};
-
-  // _loadUsers() async {
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     accessToken = sharedPreferences.getString('accessToken');
-  //     isAuth = sharedPreferences.getBool('isLoggedIn');
-  //     username = sharedPreferences.getString('username');
-  //   });
-  // }
-
-   void fetchUserDetails() async {
+  void fetchUserDetails() async {
     final prefs = await SharedPreferences.getInstance();
     final userData = json.decode(prefs.getString('user')!);
     setState(() {
@@ -63,7 +49,6 @@ class _HomePageState extends State<HomePage> {
         colors: [AppColor.prebase, AppColor.base],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        //tileMode: TileMode.repeated,
       )),
       child: Padding(
         padding: const EdgeInsets.only(
@@ -129,6 +114,98 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 15.0,
           ),
+          BlocBuilder<EventListCubit, EventListState>(
+            bloc: EventListCubit()..fetchEventLists(),
+            builder: (context, state) {
+              print("*************** sample **********");
+              print(state);
+              return state.maybeWhen(
+                orElse: () {
+                  return Loader();
+                  //  Container(
+                  //   height: Utils.displayHeight(context) * 0.6,
+                  //   child: Shimmer.fromColors(
+                  //     baseColor: AppColor.prebase,
+                  //     highlightColor: AppColor.base,
+                  //     child: ListView.builder(
+                  //         scrollDirection: Axis.vertical,
+                  //         padding: const EdgeInsets.only(top: 10),
+                  //         itemCount: 8,
+                  //         itemBuilder: (context, index) {
+                  //           return Card(
+                  //             color: Theme.of(context).primaryColor,
+                  //             child: const SizedBox(
+                  //               height: 130,
+                  //               child: Text(
+                  //                 "sample title",
+                  //                 style: TextStyle(
+                  //                   color: Colors.white,
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.bold,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           );
+                  //           ;
+                  //         }),
+                  //   ),
+                  // );
+                },
+                success: (events) {
+                  print("*********** events ******");
+                  return Container(
+                    height: Utils.displayHeight(context) * 0.6,
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        padding: const EdgeInsets.only(top: 10),
+                        itemCount: events.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ScanPage()));
+                              },
+                              child: EventCard(
+                                eventModel: events[index],
+                              ));
+                        }),
+                  );
+                },
+                failure: (errorMessage) {
+                  return Container(
+                    height: Utils.displayHeight(context) * 0.6,
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        padding: const EdgeInsets.only(top: 10),
+                        itemCount: 1,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ScanPage()));
+                              },
+                              child: Text("Something Went Wrong")
+                              );
+                        }),
+                  );
+                  // Fluttertoast.showToast(
+                  //   msg: errorMessage,
+                  //   toastLength: Toast.LENGTH_LONG,
+                  //   gravity: ToastGravity.BOTTOM,
+                  //   timeInSecForIosWeb: 5,
+                  //   backgroundColor: Colors.red,
+                  //   textColor: Colors.white,
+                  //   fontSize: 16.0,
+                  // );
+                },
+              );
+            },
+          ),
+
           // Container(
           //   // color: Colors.red,
           //   height: Utils.displayHeight(context) * 0.6,

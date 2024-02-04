@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _obsecureText = true;
 
-   final Map<String, dynamic> _authData = {
+  final Map<String, dynamic> _authData = {
     'phone_number': '',
     'password': '',
   };
@@ -84,11 +84,11 @@ class _LoginScreenState extends State<LoginScreen> {
           )),
           child: Padding(
             padding: const EdgeInsets.only(top: 120.0, left: 20.0, right: 20.0),
-            child:
-                Form(
-                  key: _formKey,
-                  child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                              Row(
+            child: Form(
+              key: _formKey,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
@@ -107,19 +107,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     )
                   ],
-                              ),
-                              SizedBox(
+                ),
+                SizedBox(
                   height: Utils.displayHeight(context) * 0.12,
-                              ),
-                              
-                              SizedBox(
+                ),
+                SizedBox(
                   height: Utils.displayHeight(context) * 0.02,
-                              ),
-                             
-                              SizedBox(
+                ),
+                SizedBox(
                   height: Utils.displayHeight(context) * 0.02,
-                              ),
-                              Container(
+                ),
+                Container(
                   height: 50,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -129,13 +127,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: InternationalPhoneNumberInput(
                     onInputChanged: (PhoneNumber number) {
                       _phone = number.phoneNumber?.replaceAll("+", "");
-                       print(_phone);
+                      print(_phone);
                       _authData['phone_number'] = _phone;
                     },
                     onInputValidated: (bool value) {
                       if (value) print(value);
                     },
-    
                     selectorConfig: const SelectorConfig(
                       selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                     ),
@@ -145,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     maxLength: 9,
                     autoValidateMode: AutovalidateMode.disabled,
                     selectorTextStyle: const TextStyle(color: Colors.white),
-                    
                     initialValue: number,
                     textFieldController: _phoneController,
                     formatInput: false,
@@ -157,11 +153,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       print('On Saved: $number');
                     },
                   ),
-                              ),
-                              SizedBox(
+                ),
+                SizedBox(
                   height: Utils.displayHeight(context) * 0.035,
-                              ),
-                              Container(
+                ),
+                Container(
                   height: 50,
                   width: Utils.displayWidth(context),
                   child: Center(
@@ -195,37 +191,37 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: AppColor.border),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10.0))),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))),
                           border: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.white,
                                 width: 3,
                                 style: BorderStyle.solid),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
                           ),
                         ),
                         onChanged: (value) {
                           _authData['password'] = value;
                           print("password: " + _passwordController.text);
                         },
-                          validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter an password';
-                                } else if (value.length < 8) {
-                                  return 'Password must have 8 or more character long';
-                                }
-                                return null;
-                              },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter an password';
+                          } else if (value.length < 8) {
+                            return 'Password must have 8 or more character long';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
-                              ),
-                
-                              const SizedBox(
+                ),
+                const SizedBox(
                   height: 15.0,
-                              ),
-                              const Row(
+                ),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
@@ -234,65 +230,61 @@ class _LoginScreenState extends State<LoginScreen> {
                       textAlign: TextAlign.end,
                     ),
                   ],
-                              ),
-                              const SizedBox(
+                ),
+                const SizedBox(
                   height: 15.0,
-                              ),
-                                  BlocConsumer<LoginCubit, LoginState>(
-                            builder: (context, state) {
-                              return state.maybeWhen(loading: () {
-                                return Loader(
-                                  size: 50,
-                                );
-                              }, orElse: () {
-                                return ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState!.save();
-                                      BlocProvider.of<LoginCubit>(context)
-                                          .login(_authData);
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, bottom: 15),
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                    minimumSize: const Size.fromHeight(50),
-                                  ),
-                                  child: const Text("Login with Phone"),
-                                );
-                              });
-                            },
-                            listener: (context, state) {
-                              state.maybeWhen(
-                                  success: (user) {
-                                    SessionTimer.startTimer(context);
+                ),
+                BlocConsumer<LoginCubit, LoginState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(loading: () {
+                      return Loader(
+                        size: 50,
+                      );
+                    }, orElse: () {
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            BlocProvider.of<LoginCubit>(context)
+                                .login(_authData);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.only(top: 15, bottom: 15),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                          minimumSize: const Size.fromHeight(50),
+                        ),
+                        child: const Text("Login with Phone"),
+                      );
+                    });
+                  },
+                  listener: (context, state) {
+                    state.maybeWhen(
+                        success: (user) {
+                          SessionTimer.startTimer(context);
 
-                                    const HomePage().launch(context);
-                                  },
-                                  failure: (errorMessage) {
-                                    Fluttertoast.showToast(
-                                      msg: errorMessage,
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 5,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0,
-                                    );
-                                  },
-                                  orElse: () {});
-                            },
-                          ),
-                       
-                              const SizedBox(
+                          const HomePage().launch(context);
+                        },
+                        failure: (errorMessage) {
+                          Fluttertoast.showToast(
+                            msg: errorMessage,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        },
+                        orElse: () {});
+                  },
+                ),
+                const SizedBox(
                   height: 10.0,
-                              ),
-                              Container(
+                ),
+                Container(
                   margin: const EdgeInsets.only(top: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,8 +300,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(width: Utils.displayWidth(context) * 0.32),
                           const Text(
                             "Please",
                             style: TextStyle(
@@ -338,9 +330,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
-                              )
-                            ]),
-                ),
+                )
+              ]),
+            ),
           ),
         )),
       ),

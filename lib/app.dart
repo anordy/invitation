@@ -1,6 +1,8 @@
+import 'package:adaptive_theme/src/adaptive_theme_mode.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invitation/cubits/event/cubit/event_list_cubit.dart';
 import 'package:invitation/features/auth/cubit/auth_cubit.dart';
 import 'package:invitation/features/auth/login/cubit/login_cubit.dart';
 import 'package:invitation/features/settings/cubit/language_cubit.dart';
@@ -41,6 +43,7 @@ class _MyAppState extends State<MyApp> {
             BlocProvider(
               create: (context) => AuthCubit(),
             ),
+            BlocProvider(create: (context) => EventListCubit())
           ],
           child: BlocBuilder<LanguageCubit, LanguageState>(
             builder: (context, state) {
