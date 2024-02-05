@@ -50,14 +50,13 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                       return Container(
                           height: Utils.displayHeight(context) * 0.05,
                           child: const Text(
-                            "No Title available",
-                            style: const TextStyle(
+                            "Loading",
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ));
-                      ;
                     },
                     success: (event) {
                       return Container(
@@ -77,8 +76,8 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                       return Container(
                           height: Utils.displayHeight(context) * 0.05,
                           child: const Text(
-                            "No Title available",
-                            style: const TextStyle(
+                            "Something went wrong",
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -159,7 +158,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                     "pin": pin,
                     "event_id": this.widget.id,
                   };
-                  // _eventProvider.checkCard(pin: pin, eventId: this.widget.id);
+                  print(data);
                   BlocProvider.of<EventScanCubit>(context).scanCard(data);
                   otpController.clear();
                 }),

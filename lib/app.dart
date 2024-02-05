@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
     return AdaptiveTheme(
       light: Themes.light,
       dark: Themes.dark,
+      debugShowFloatingThemeButton: true,
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (theme, darkTheme) {
         return MultiBlocProvider(
@@ -81,7 +82,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (context, state) {
                       return state.maybeWhen(success: (isAuth) {
                         return (widget.firstRun)
-                            ?  OnBoardingScreen()
+                            ? OnBoardingScreen()
                             : (isAuth)
                                 ? const HomePage()
                                 : const LoginScreen();
