@@ -2,12 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:invitation/model/event_detail_model.dart';
 import 'package:invitation/model/event_model.dart';
 import 'package:invitation/network/auth_header.dart';
 import 'package:invitation/network/dio_client.dart';
 import 'package:invitation/network/dio_exception.dart';
 import 'package:invitation/network/endpoints.dart';
+import 'package:invitation/widget/toast_widget.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EventRepository {
@@ -71,13 +74,59 @@ class EventRepository {
         data: data,
         options: Options(headers: headers),
       );
+      showToastWidget(
+            LoggedInToast(
+              icon: Icon(
+                Icons.done,
+                color: Colors.white,
+                size: 15,
+              ),
+              height: 50,
+              width: 200,
+              color: Colors.white,
+              bgColor: Colors.green,
+              description: "User checked success"),
+          duration: const Duration(seconds: 15),
+          position: ToastPosition.top,
+        );
       return response;
     } on DioError catch (e) {
       if (e.response != null) {
+           showToastWidget(
+            LoggedInToast(
+              icon: Icon(
+                Icons.done,
+                color: Colors.white,
+                size: 15,
+              ),
+              height: 50,
+              width: 200,
+              color: Colors.white,
+              bgColor: Colors.green,
+              description: e.response!.data['message']),
+          duration: const Duration(seconds: 15),
+          position: ToastPosition.top,
+        );
         throw e.response!.data['message'];
       } else {
-        var error = DioException.fromDioError(e);
+                var error = DioException.fromDioError(e);
+          showToastWidget(
+            LoggedInToast(
+              icon: Icon(
+                Icons.done,
+                color: Colors.white,
+                size: 15,
+              ),
+              height: 50,
+              width: 200,
+              color: Colors.white,
+              bgColor: Colors.green,
+              description: error.errorMessage),
+          duration: const Duration(seconds: 15),
+          position: ToastPosition.top,
+        );
         throw error.errorMessage;
+       
       }
     }
   }

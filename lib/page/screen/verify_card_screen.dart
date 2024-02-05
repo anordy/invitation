@@ -19,7 +19,7 @@ class VerifyCardScan extends StatefulWidget {
 
 class _VerifyCardScanState extends State<VerifyCardScan> {
   OtpFieldController otpController = OtpFieldController();
-
+  String? globalPin;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,54 +40,57 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
         ),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: BlocBuilder<EventCubit, EventState>(
-                bloc: EventCubit()..fetchEvent(this.widget.id),
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    orElse: () {
-                      return Container(
-                          height: Utils.displayHeight(context) * 0.05,
-                          child: const Text(
-                            "Loading",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ));
-                    },
-                    success: (event) {
-                      return Container(
-                        height: Utils.displayHeight(context) * 0.05,
-                        child: Text(
-                          event.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    },
-                    failure: (errorMessage) {
-                      print(errorMessage);
-                      return Container(
-                          height: Utils.displayHeight(context) * 0.05,
-                          child: const Text(
-                            "Something went wrong",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ));
-                    },
-                  );
-                },
-              ),
-            ),
+            Text("Wedding"),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 50.0),
+            //   child:
+            //   BlocBuilder<EventCubit, EventState>(
+            //     bloc: EventCubit()..fetchEvent(this.widget.id),
+            //     builder: (context, state) {
+            //       return state.maybeWhen(
+            //         orElse: () {
+            //           return Container(
+            //               height: Utils.displayHeight(context) * 0.05,
+            //               child: const Text(
+            //                 "Loading",
+            //                 style: TextStyle(
+            //                   color: Colors.white,
+            //                   fontSize: 20,
+            //                   fontWeight: FontWeight.bold,
+            //                 ),
+            //               ));
+            //         },
+            //         success: (event) {
+            //           return Container(
+            //             height: Utils.displayHeight(context) * 0.05,
+            //             child: Text(
+            //               event.title,
+            //               style: const TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: 20,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //         failure: (errorMessage) {
+            //           print(errorMessage);
+            //           return Container(
+            //               height: Utils.displayHeight(context) * 0.05,
+            //               child: const Text(
+            //                 "Something went wrong",
+            //                 style: TextStyle(
+            //                   color: Colors.white,
+            //                   fontSize: 20,
+            //                   fontWeight: FontWeight.bold,
+            //                 ),
+            //               ));
+            //         },
+            //       );
+            //     },
+            //   ),
+            // ),
+
             const SizedBox(
               height: 5.0,
             ),
@@ -154,14 +157,32 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                 onCompleted: (pin) {
                   print("*****************************");
                   print("Completed: " + pin);
-                  final data = {
-                    "pin": pin,
-                    "event_id": this.widget.id,
-                  };
-                  print(data);
-                  BlocProvider.of<EventScanCubit>(context).scanCard(data);
-                  otpController.clear();
+                  globalPin = pin;
                 }),
+
+            SizedBox(
+              height: 50,
+            ),
+            ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: MaterialButton(
+                  height: 50,
+                  minWidth: Utils.displayWidth(context) * 0.9,
+                  color: const Color.fromARGB(179, 2, 37, 62),
+                  onPressed: () async {
+                    final data = {
+                      "pin": globalPin,
+                      "event_id": this.widget.id,
+                    };
+                    print(data);
+                     BlocProvider.of<EventScanCubit>(context).scanCard(data);
+                       otpController.clear();
+                  },
+                  child: Text(
+                    "VERIFY".toUpperCase(),
+                    style: const TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                )),
           ],
         ),
       )),

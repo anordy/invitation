@@ -64,7 +64,7 @@ class LoggedInToast extends StatelessWidget {
   final double width;
   final Widget icon;
   final String description;
-  const LoggedInToast({required this.color,required this.description,required this.height,required this.icon,required this.width});
+  const LoggedInToast({required this.color,required this.description,required this.height,required this.icon,required this.width, required MaterialColor bgColor});
   @override
   Widget build(BuildContext context) {
     return Padding(
