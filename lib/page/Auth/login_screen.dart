@@ -87,27 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
               key: _formKey,
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.card_giftcard,
-                      color: AppColor.base,
-                    ),
-                    const SizedBox(
-                      width: 10.0,
-                    ),
-                    const Text(
-                      "Invitation",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
+             
+              SizedBox(
                   height: Utils.displayHeight(context) * 0.12,
                 ),
                 SizedBox(
