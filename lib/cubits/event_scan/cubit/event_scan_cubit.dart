@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:invitation/model/check_card_model.dart';
 import 'package:invitation/repositories/event_repository.dart';
 
 part 'event_scan_state.dart';

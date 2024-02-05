@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invitation/cubits/event/cubit/event_cubit.dart';
+import 'package:invitation/cubits/event_scan/cubit/event_scan_cubit.dart';
 import 'package:invitation/page/screen/verify_card_screen.dart';
 import 'package:invitation/utils/colors.dart';
 import 'package:invitation/utils/utils.dart';
@@ -23,14 +24,9 @@ class _ScanQRCodeState extends State<ScanQRCode> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero).then((_) {
-      // Provider.of<EventProvider>(context, listen: false)
-      //     .fetchEventDetail(id: this.widget.id);
-    });
   }
 
   Future<void> scanQR() async {
-    // final _eventProvider = Provider.of<EventProvider>(context,listen: false);
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
@@ -46,7 +42,11 @@ class _ScanQRCodeState extends State<ScanQRCode> {
     setState(() {
       _scanBarcode = barcodeScanRes;
     });
-    // _eventProvider.checkCard(pin: _scanBarcode, eventId: this.widget.id);
+    final data = {
+      "pin": _scanBarcode,
+      "event_id": this.widget.id,
+    };
+    BlocProvider.of<EventScanCubit>(context).scanCard(data);
   }
 
   @override
@@ -152,18 +152,40 @@ class _ScanQRCodeState extends State<ScanQRCode> {
             const SizedBox(
               height: 50.0,
             ),
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: MaterialButton(
-                  height: 50,
-                  minWidth: Utils.displayWidth(context) * 0.9,
-                  color: const Color.fromARGB(179, 2, 37, 62),
-                  onPressed: () => scanQR(),
-                  child: Text(
-                    "SCAN CARD".toUpperCase(),
-                    style: const TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                )),
+                BlocConsumer<EventScanCubit, EventScanState>(
+              builder: (context, state) {
+                return state.maybeWhen(loading: () {
+                  return Loader(
+                    size: 50,
+                  );
+                }, orElse: () {
+                  return ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: MaterialButton(
+                        height: 50,
+                        minWidth: Utils.displayWidth(context) * 0.9,
+                        color: const Color.fromARGB(179, 2, 37, 62),
+                       onPressed: () => scanQR(),
+                        child: Text(
+                          "SCAN QR".toUpperCase(),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 16),
+                        ),
+                      ));
+                });
+              },
+              listener: (context, state) {
+                state.maybeWhen(
+                    success: (result) {
+                      showCustomDialogBasedOnCode(result.code, result.message);
+                    },
+                    failure: (errorMessage) {
+                      showCustomDialogBasedOnCode(500, errorMessage);
+                    },
+                    orElse: () {});
+              },
+            ),
+
             const SizedBox(
               height: 10,
             ),
@@ -185,9 +207,39 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                     style: const TextStyle(color: Colors.white70, fontSize: 16),
                   ),
                 )),
-            Text('Scan result : $_scanBarcode\n',
-                style: const TextStyle(fontSize: 20))
+            // Text('Scan result : $_scanBarcode\n',
+            //     style: const TextStyle(fontSize: 20))
           ]));
     })));
   }
+
+    void showCustomDialogBasedOnCode(int code, String message) {
+    IconData icon = code == 200 ? Icons.done : Icons.close;
+    Color bgColor = code == 200 ? Colors.green : Colors.red;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: bgColor,
+          content: Container(
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
+            height: 100,
+            width: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: Colors.white, size: 15),
+                SizedBox(height: 10),
+                Text(message, style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }

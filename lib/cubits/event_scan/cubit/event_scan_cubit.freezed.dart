@@ -20,7 +20,7 @@ mixin _$EventScanState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic data) success,
+    required TResult Function(CheckCardModel data) success,
     required TResult Function(String errorMessage) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$EventScanState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic data)? success,
+    TResult? Function(CheckCardModel data)? success,
     TResult? Function(String errorMessage)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$EventScanState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic data)? success,
+    TResult Function(CheckCardModel data)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) =>
@@ -104,18 +104,12 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
+class _$InitialImpl implements _Initial {
   const _$InitialImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'EventScanState.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'EventScanState.initial'));
   }
 
   @override
@@ -132,7 +126,7 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic data) success,
+    required TResult Function(CheckCardModel data) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return initial();
@@ -143,7 +137,7 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic data)? success,
+    TResult? Function(CheckCardModel data)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return initial?.call();
@@ -154,7 +148,7 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic data)? success,
+    TResult Function(CheckCardModel data)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -224,18 +218,12 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
+class _$LoadingImpl implements _Loading {
   const _$LoadingImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'EventScanState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'EventScanState.loading'));
   }
 
   @override
@@ -252,7 +240,7 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic data) success,
+    required TResult Function(CheckCardModel data) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return loading();
@@ -263,7 +251,7 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic data)? success,
+    TResult? Function(CheckCardModel data)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return loading?.call();
@@ -274,7 +262,7 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic data)? success,
+    TResult Function(CheckCardModel data)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -332,7 +320,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({dynamic data});
+  $Res call({CheckCardModel data});
 }
 
 /// @nodoc
@@ -346,36 +334,28 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
     return _then(_$SuccessImpl(
-      data: freezed == data
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as CheckCardModel,
     ));
   }
 }
 
 /// @nodoc
 
-class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
+class _$SuccessImpl implements _Success {
   const _$SuccessImpl({required this.data});
 
   @override
-  final dynamic data;
+  final CheckCardModel data;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'EventScanState.success(data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'EventScanState.success'))
-      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -383,12 +363,11 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            const DeepCollectionEquality().equals(other.data, data));
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
@@ -401,7 +380,7 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic data) success,
+    required TResult Function(CheckCardModel data) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return success(data);
@@ -412,7 +391,7 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic data)? success,
+    TResult? Function(CheckCardModel data)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return success?.call(data);
@@ -423,7 +402,7 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic data)? success,
+    TResult Function(CheckCardModel data)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -472,9 +451,9 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
 }
 
 abstract class _Success implements EventScanState {
-  const factory _Success({required final dynamic data}) = _$SuccessImpl;
+  const factory _Success({required final CheckCardModel data}) = _$SuccessImpl;
 
-  dynamic get data;
+  CheckCardModel get data;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -513,23 +492,15 @@ class __$$FailureImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
+class _$FailureImpl implements _Failure {
   const _$FailureImpl({required this.errorMessage});
 
   @override
   final String errorMessage;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'EventScanState.failure(errorMessage: $errorMessage)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'EventScanState.failure'))
-      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override
@@ -555,7 +526,7 @@ class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(dynamic data) success,
+    required TResult Function(CheckCardModel data) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return failure(errorMessage);
@@ -566,7 +537,7 @@ class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(dynamic data)? success,
+    TResult? Function(CheckCardModel data)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return failure?.call(errorMessage);
@@ -577,7 +548,7 @@ class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(dynamic data)? success,
+    TResult Function(CheckCardModel data)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {

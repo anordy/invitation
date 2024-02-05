@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invitation/cubits/event/cubit/event_cubit.dart';
 import 'package:invitation/cubits/event_scan/cubit/event_scan_cubit.dart';
 import 'package:invitation/page/Auth/onboarding/onboarding_screen.dart';
-import 'package:otp_text_field/otp_field.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:otp_text_field/otp_field.dart' as otp;
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import '../../utils/colors.dart';
@@ -18,7 +19,7 @@ class VerifyCardScan extends StatefulWidget {
 }
 
 class _VerifyCardScanState extends State<VerifyCardScan> {
-  OtpFieldController otpController = OtpFieldController();
+  otp.OtpFieldController otpController = otp.OtpFieldController();
   String? globalPin;
   @override
   Widget build(BuildContext context) {
@@ -40,56 +41,48 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
         ),
         child: Column(
           children: [
-            Text("Wedding"),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 50.0),
-            //   child:
-            //   BlocBuilder<EventCubit, EventState>(
-            //     bloc: EventCubit()..fetchEvent(this.widget.id),
-            //     builder: (context, state) {
-            //       return state.maybeWhen(
-            //         orElse: () {
-            //           return Container(
-            //               height: Utils.displayHeight(context) * 0.05,
-            //               child: const Text(
-            //                 "Loading",
-            //                 style: TextStyle(
-            //                   color: Colors.white,
-            //                   fontSize: 20,
-            //                   fontWeight: FontWeight.bold,
-            //                 ),
-            //               ));
-            //         },
-            //         success: (event) {
-            //           return Container(
-            //             height: Utils.displayHeight(context) * 0.05,
-            //             child: Text(
-            //               event.title,
-            //               style: const TextStyle(
-            //                 color: Colors.white,
-            //                 fontSize: 20,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //           );
-            //         },
-            //         failure: (errorMessage) {
-            //           print(errorMessage);
-            //           return Container(
-            //               height: Utils.displayHeight(context) * 0.05,
-            //               child: const Text(
-            //                 "Something went wrong",
-            //                 style: TextStyle(
-            //                   color: Colors.white,
-            //                   fontSize: 20,
-            //                   fontWeight: FontWeight.bold,
-            //                 ),
-            //               ));
-            //         },
-            //       );
-            //     },
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child:
+              BlocBuilder<EventCubit, EventState>(
+                bloc: EventCubit()..fetchEvent(this.widget.id),
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container(
+                          height: Utils.displayHeight(context) * 0.05,
+                          child: Loader());
+                    },
+                    success: (event) {
+                      return Container(
+                        height: Utils.displayHeight(context) * 0.05,
+                        child: Text(
+                          event.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    },
+                    failure: (errorMessage) {
+                      print(errorMessage);
+                      return Container(
+                          height: Utils.displayHeight(context) * 0.05,
+                          child: const Text(
+                            "Something went wrong",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ));
+                    },
+                  );
+                },
+              ),
+            ),
 
             const SizedBox(
               height: 5.0,
@@ -138,7 +131,7 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
             const SizedBox(
               height: 50.0,
             ),
-            OTPTextField(
+            otp.OTPTextField(
                 controller: otpController,
                 length: 4,
                 width: MediaQuery.of(context).size.width,
@@ -151,41 +144,90 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                     disabledBorderColor: AppColor.base),
                 style: const TextStyle(fontSize: 17, color: Colors.white),
                 onChanged: (pin) {
-                  print("*****************************");
-                  print("Changed: " + pin);
+                  print(pin);
                 },
                 onCompleted: (pin) {
-                  print("*****************************");
-                  print("Completed: " + pin);
                   globalPin = pin;
                 }),
 
             SizedBox(
               height: 50,
             ),
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: MaterialButton(
-                  height: 50,
-                  minWidth: Utils.displayWidth(context) * 0.9,
-                  color: const Color.fromARGB(179, 2, 37, 62),
-                  onPressed: () async {
-                    final data = {
-                      "pin": globalPin,
-                      "event_id": this.widget.id,
-                    };
-                    print(data);
-                     BlocProvider.of<EventScanCubit>(context).scanCard(data);
-                       otpController.clear();
-                  },
-                  child: Text(
-                    "VERIFY".toUpperCase(),
-                    style: const TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                )),
+
+            BlocConsumer<EventScanCubit, EventScanState>(
+              builder: (context, state) {
+                return state.maybeWhen(loading: () {
+                  return Loader(
+                    size: 50,
+                  );
+                }, orElse: () {
+                  return ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: MaterialButton(
+                        height: 50,
+                        minWidth: Utils.displayWidth(context) * 0.9,
+                        color: const Color.fromARGB(179, 2, 37, 62),
+                        onPressed: () async {
+                          final data = {
+                            "pin": globalPin,
+                            "event_id": this.widget.id,
+                          };
+                          print(data);
+                          BlocProvider.of<EventScanCubit>(context)
+                              .scanCard(data);
+                          otpController.clear();
+                        },
+                        child: Text(
+                          "VERIFY".toUpperCase(),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 16),
+                        ),
+                      ));
+                });
+              },
+              listener: (context, state) {
+                state.maybeWhen(
+                    success: (result) {
+                      showCustomDialogBasedOnCode(result.code, result.message);
+                    },
+                    failure: (errorMessage) {
+                      showCustomDialogBasedOnCode(500, errorMessage);
+                    },
+                    orElse: () {});
+              },
+            ),
           ],
         ),
       )),
+    );
+  }
+
+  void showCustomDialogBasedOnCode(int code, String message) {
+    IconData icon = code == 200 ? Icons.done : Icons.close;
+    Color bgColor = code == 200 ? Colors.green : Colors.red;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: bgColor,
+          content: Container(
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
+            height: 100,
+            width: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: Colors.white, size: 15),
+                SizedBox(height: 10),
+                Text(message, style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
