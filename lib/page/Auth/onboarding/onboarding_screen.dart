@@ -6,20 +6,20 @@ import 'package:invitation/utils/colors.dart';
 final List<ExplanationData> data = [
   ExplanationData(
       description:
-          "Labore do ex cillum fugiat anim nulla pariatur est. Elit laboris eiusmod ex occaecat do ea officia esse culpa.",
-      title: "Scan Invitation Wedding  Card",
+          "Welcome aboard to the future of event invitations! Say goodbye to traditional paper cards.",
+      title: "Welcome To D-Card",
       localImageSrc: "assets/icons/1.png",
       backgroundColor: AppColor.base),
   ExplanationData(
       description:
-          "Sit ullamco anim deserunt aliquip mollit id. Occaecat labore laboris magna reprehenderit sint in sunt ea.",
-      title: "Scan OTP provided to enter Wedding",
+          "Easily access your cards by scanning QR codes. No more hassle with physical cards",
+      title: "Scan QR Code",
       localImageSrc: "assets/icons/2.png",
       backgroundColor: AppColor.base),
   ExplanationData(
       description:
-          "Eiusmod aliqua laboris duis eiusmod ea ea commodo dolore. Ullamco nulla nostrud et officia.",
-      title: "Scan Invitation Wedding  Card",
+          "Verify your digital card by entering the code provided via SMS. Rest assured that your digital cards are protected.",
+      title: "Verify OTP Code",
       localImageSrc: "assets/icons/3.png",
       backgroundColor: AppColor.base),
 ];

@@ -31,7 +31,6 @@ class _MyAppState extends State<MyApp> {
     return AdaptiveTheme(
       light: Themes.light,
       dark: Themes.dark,
-      debugShowFloatingThemeButton: true,
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (theme, darkTheme) {
         return MultiBlocProvider(
@@ -55,7 +54,7 @@ class _MyAppState extends State<MyApp> {
               if (state is ChangeLanguageState) {
                 return MaterialApp(
                   locale: state.locale,
-                  title: 'Invitation',
+                  title: 'D-Card',
                   showPerformanceOverlay: false,
                   theme: theme,
                   darkTheme: darkTheme,

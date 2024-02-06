@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:invitation/card/EventCard.dart';
-import 'package:invitation/cubits/event/cubit/event_cubit.dart';
 import 'package:invitation/cubits/events/cubit/event_list_cubit.dart';
 import 'package:invitation/features/auth/cubit/auth_cubit.dart';
 import 'package:invitation/page/Auth/login_screen.dart';
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                     const LoginScreen().launch(context);
                   },
                   icon: const Icon(
-                    Icons.card_giftcard_outlined,
+                  FontAwesomeIcons.rightFromBracket,
                     color: Colors.white70,
                   )),
               Container(
@@ -120,34 +120,6 @@ class _HomePageState extends State<HomePage> {
               return state.maybeWhen(
                 orElse: () {
                   return Loader();
-                  //  Container(
-                  //   height: Utils.displayHeight(context) * 0.6,
-                  //   child: Shimmer.fromColors(
-                  //     baseColor: AppColor.prebase,
-                  //     highlightColor: AppColor.base,
-                  //     child: ListView.builder(
-                  //         scrollDirection: Axis.vertical,
-                  //         padding: const EdgeInsets.only(top: 10),
-                  //         itemCount: 8,
-                  //         itemBuilder: (context, index) {
-                  //           return Card(
-                  //             color: Theme.of(context).primaryColor,
-                  //             child: const SizedBox(
-                  //               height: 130,
-                  //               child: Text(
-                  //                 "sample title",
-                  //                 style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontSize: 16,
-                  //                   fontWeight: FontWeight.bold,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           );
-                  //           ;
-                  //         }),
-                  //   ),
-                  // );
                 },
                 success: (events) {
                   return Container(

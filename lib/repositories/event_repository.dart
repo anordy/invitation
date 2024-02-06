@@ -10,7 +10,7 @@ import 'package:invitation/network/auth_header.dart';
 import 'package:invitation/network/dio_client.dart';
 import 'package:invitation/network/dio_exception.dart';
 import 'package:invitation/network/endpoints.dart';
-import 'package:invitation/widget/show_custom_dialog.dart';
+import 'package:invitation/widget/custom_snackbar.dart';
 import 'package:invitation/widget/toast_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';

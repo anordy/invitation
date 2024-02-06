@@ -38,7 +38,7 @@ dependencies:
   country_code_picker: ^3.0.0
   otp_text_field: ^1.1.3
   flutter_sticky_header: ^0.6.5
-  font_awesome_flutter: ^10.5.0
+  font_awesome_flutter: ^10.7.0
   mobile_scanner: ^3.3.0
   qr_code_scanner: ^1.0.1
   shared_preferences: ^2.2.0
@@ -61,6 +61,7 @@ dependencies:
   shimmer: ^3.0.0
   qr_flutter: ^4.1.0
   flutter_barcode_scanner: ^2.0.0
+  rename: ^3.0.1
   
 
 dev_dependencies:

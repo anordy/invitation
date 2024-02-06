@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:invitation/model/event_model.dart';
 import 'package:invitation/utils/colors.dart';
 
@@ -65,8 +67,8 @@ class EventCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
-                              Icons.pin_drop_rounded,
-                              size: 20,
+                              FontAwesomeIcons.locationDot,
+                              size: 18,
                               color: Colors.white70,
                             ),
                             const SizedBox(
@@ -97,12 +99,12 @@ class EventCard extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              "${eventModel.startDate}",
-                              style: TextStyle(
-                                  fontSize:
-                                      Utils.displayHeight(context) * 0.014,
-                                  color: Colors.white70),
+                            DateFormat('yyyy-MM-dd').format(eventModel.startDate),
+                            style: TextStyle(
+                              fontSize: Utils.displayHeight(context) * 0.014,
+                              color: Colors.white70,
                             ),
+                          ),
                           ],
                         ),
                       ],

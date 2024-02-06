@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:invitation/cubits/event/cubit/event_cubit.dart';
 import 'package:invitation/cubits/event_scan/cubit/event_scan_cubit.dart';
 import 'package:invitation/page/Auth/onboarding/onboarding_screen.dart';
+import 'package:invitation/widget/custom_snackbar.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:otp_text_field/otp_field.dart' as otp;
 import 'package:otp_text_field/otp_field_style.dart';
@@ -42,94 +44,38 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child:
-              BlocBuilder<EventCubit, EventState>(
-                bloc: EventCubit()..fetchEvent(this.widget.id),
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    orElse: () {
-                      return Container(
-                          height: Utils.displayHeight(context) * 0.05,
-                          child: Loader());
-                    },
-                    success: (event) {
-                      return Container(
-                        height: Utils.displayHeight(context) * 0.05,
-                        child: Text(
-                          event.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    },
-                    failure: (errorMessage) {
-                      print(errorMessage);
-                      return Container(
-                          height: Utils.displayHeight(context) * 0.05,
-                          child: const Text(
-                            "Something went wrong",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ));
-                    },
-                  );
-                },
+              padding: const EdgeInsets.only(top: 30.0, left: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(
+                        FontAwesomeIcons.arrowLeft,
+                        color: Colors.white70,
+                      )),
+                ],
               ),
             ),
-
             const SizedBox(
               height: 5.0,
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      "300",
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
-                    ),
-                    Text(
-                      "All",
-                      style: TextStyle(color: Colors.white38, fontSize: 16),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "50",
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
-                    ),
-                    Text(
-                      "Active",
-                      style: TextStyle(color: Colors.white38, fontSize: 16),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "50",
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
-                    ),
-                    Text(
-                      "InActive",
-                      style: TextStyle(color: Colors.white38, fontSize: 16),
-                    ),
-                  ],
-                ),
-              ],
+            const Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20.0, top: 20),
+                child: Text("Enter OTP Code",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
             ),
             const SizedBox(
-              height: 50.0,
+              height: 20.0,
             ),
             otp.OTPTextField(
                 controller: otpController,
@@ -149,11 +95,9 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
                 onCompleted: (pin) {
                   globalPin = pin;
                 }),
-
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-
             BlocConsumer<EventScanCubit, EventScanState>(
               builder: (context, state) {
                 return state.maybeWhen(loading: () {
@@ -188,10 +132,26 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
               listener: (context, state) {
                 state.maybeWhen(
                     success: (result) {
-                      showCustomDialogBasedOnCode(result.code, result.message);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: CustomSnackBarContent(
+                          code: result.code,
+                          errorText: result.message,
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ));
                     },
                     failure: (errorMessage) {
-                      showCustomDialogBasedOnCode(500, errorMessage);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: CustomSnackBarContent(
+                          code: 500,
+                          errorText: errorMessage,
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ));
                     },
                     orElse: () {});
               },
@@ -199,35 +159,6 @@ class _VerifyCardScanState extends State<VerifyCardScan> {
           ],
         ),
       )),
-    );
-  }
-
-  void showCustomDialogBasedOnCode(int code, String message) {
-    IconData icon = code == 200 ? Icons.done : Icons.close;
-    Color bgColor = code == 200 ? Colors.green : Colors.red;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: bgColor,
-          content: Container(
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-            height: 100,
-            width: 200,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, color: Colors.white, size: 15),
-                SizedBox(height: 10),
-                Text(message, style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

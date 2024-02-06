@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:invitation/cubits/event/cubit/event_cubit.dart';
 import 'package:invitation/cubits/event_scan/cubit/event_scan_cubit.dart';
 import 'package:invitation/page/screen/verify_card_screen.dart';
 import 'package:invitation/utils/colors.dart';
 import 'package:invitation/utils/utils.dart';
+import 'package:invitation/widget/custom_snackbar.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ScanQRCode extends StatefulWidget {
@@ -77,7 +79,7 @@ Future<void> scanQR() async {
 }
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<EventCubit>(context).fetchEvent(this.widget.id);
+    // BlocProvider.of<EventCubit>(context).fetchEvent(this.widget.id);
     return MaterialApp(
         home: Scaffold(body: Builder(builder: (BuildContext context) {
       return Container(
@@ -92,14 +94,39 @@ Future<void> scanQR() async {
           )),
           alignment: Alignment.center,
           child: Column(children: <Widget>[
+               Padding(
+                 padding: const EdgeInsets.only(top: 40.0,left: 20.0),
+                 child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             IconButton(
+                    onPressed: () {
+                        //  Navigator.of(context).pop();
+
+                    },
+                    icon: const Icon(
+                    FontAwesomeIcons.arrowLeft,
+                      color: Colors.white70,
+                    )),
+                         ],
+                         ),
+               ),
+         
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+              padding: const EdgeInsets.only(top: 40.0),
               child: BlocBuilder<EventCubit, EventState>(
                 bloc: EventCubit()..fetchEvent(this.widget.id),
                 builder: (context, state) {
                   return state.maybeWhen(
                     orElse: () {
-                      return Loader();
+                      return const Text(
+                            "",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
                     },
                     success: (event) {
                       return Container(
@@ -203,10 +230,26 @@ Future<void> scanQR() async {
               listener: (context, state) {
                 state.maybeWhen(
                     success: (result) {
-                      showCustomDialogBasedOnCode(result.code, result.message);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: CustomSnackBarContent(
+                          code: result.code,
+                          errorText: result.message,
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ));
                     },
                     failure: (errorMessage) {
-                      showCustomDialogBasedOnCode(500, errorMessage);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: CustomSnackBarContent(
+                          code: 500,
+                          errorText: errorMessage,
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ));
                     },
                     orElse: () {});
               },
@@ -239,33 +282,5 @@ Future<void> scanQR() async {
     })));
   }
 
-    void showCustomDialogBasedOnCode(int code, String message) {
-    IconData icon = code == 200 ? Icons.done : Icons.close;
-    Color bgColor = code == 200 ? Colors.green : Colors.red;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: bgColor,
-          content: Container(
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-            height: 100,
-            width: 200,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, color: Colors.white, size: 15),
-                SizedBox(height: 10),
-                Text(message, style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
 }
