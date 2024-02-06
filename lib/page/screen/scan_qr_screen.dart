@@ -26,29 +26,55 @@ class _ScanQRCodeState extends State<ScanQRCode> {
     super.initState();
   }
 
-  Future<void> scanQR() async {
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
+  // Future<void> scanQR() async {
+  //   String barcodeScanRes;
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //         '#ff6666', 'Cancel', true, ScanMode.QR);
+  //     print(barcodeScanRes);
+  //   } on PlatformException {
+  //     barcodeScanRes = 'Failed to get platform version.';
+  //   }
 
-    if (!mounted) return;
+  //   if (!mounted) return;
 
-    setState(() {
+  //   setState(() {
+  //     _scanBarcode = barcodeScanRes;
+  //   });
+  //   final data = {
+  //     "pin": _scanBarcode,
+  //     "event_id": this.widget.id,
+  //   };
+  //   BlocProvider.of<EventScanCubit>(context).scanCard(data);
+  // }
+
+Future<void> scanQR() async {
+  try {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+      '#ff6666',
+      'Cancel',
+      true,
+      ScanMode.QR,
+    );
+
+    print('Scanned QR code: $barcodeScanRes');
+
+ setState(() {
       _scanBarcode = barcodeScanRes;
     });
-    final data = {
-      "pin": _scanBarcode,
-      "event_id": this.widget.id,
-    };
-    BlocProvider.of<EventScanCubit>(context).scanCard(data);
+    if (_scanBarcode != '-1') {
+      final data = {
+        "pin": _scanBarcode,
+        "event_id": widget.id,
+      };
+      BlocProvider.of<EventScanCubit>(context).scanCard(data);
+    }
+  } on PlatformException catch (e) {
+    print('Error during barcode scanning: ${e.message}');
+    // Handle the error if necessary
   }
-
+}
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<EventCubit>(context).fetchEvent(this.widget.id);

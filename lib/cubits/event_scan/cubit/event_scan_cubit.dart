@@ -13,9 +13,6 @@ class EventScanCubit extends Cubit<EventScanState> {
 
   void scanCard(dynamic data) async {
     try {
-      print("********* data  ********");
-      print(data);
-      print("****************************");
       emit(const EventScanState.loading());
       final response = await EventRepository().scanCard(data);
       emit(EventScanState.success(data: response));

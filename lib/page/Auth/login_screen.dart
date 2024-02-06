@@ -88,15 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
              
+               Image.asset('assets/images/inv1.png',color: Colors.white,),
               SizedBox(
-                  height: Utils.displayHeight(context) * 0.12,
-                ),
-                SizedBox(
-                  height: Utils.displayHeight(context) * 0.02,
-                ),
-                SizedBox(
-                  height: Utils.displayHeight(context) * 0.02,
-                ),
+                height: Utils.displayHeight(context) * 0.06,
+              ),
+           
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
